@@ -1,0 +1,52 @@
+<div [class]="'gform_wrapper ' + (config.formClass || 'small-section')">
+  <div *ngIf="config.title" class="gform_heading">
+    <h2 class="gform_title">{{ config.title }}</h2>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="gform_fields">
+
+      <ng-container *ngFor="let field of processedFields">
+
+        <div [class]="field.class">
+          <label *ngIf="field.type !== 'hidden'" [for]="field.id" class="gfield_label gform-field-label">
+            {{ field.name }}
+          </label>
+
+          <ng-container [ngSwitch]="field.type">
+
+            <textarea *ngSwitchCase="'textarea'" [id]="field.id" [formControlName]="field.id"></textarea>
+
+            <select *ngSwitchCase="'select'" [id]="field.id" [formControlName]="field.id">
+              <ng-container *ngIf="field.simpleOptions">
+                <option *ngFor="let option of field.simpleOptions" [value]="option.value">
+                  {{ option.label }}
+                </option>
+              </ng-container>
+              <ng-container *ngIf="field.groupedOptions">
+                <optgroup *ngFor="let group of field.groupedOptions" [label]="group.label">
+                  <option *ngFor="let option of group.options" [value]="option.value">
+                    {{ option.label }}
+                  </option>
+                </optgroup>
+              </ng-container>
+            </select>
+
+            <input *ngSwitchDefault [type]="field.type" [id]="field.id" [formControlName]="field.id"
+              [attr.maxlength]="field.maxlength">
+
+          </ng-container>
+
+        </div>
+
+      </ng-container>
+
+    </div>
+    <div class="gform_footer">
+      <button type="submit" [name]="config.submitName"
+        [disabled]="loading || !form.valid">{{config.submitValue}}</button>
+    </div>
+  </form>
+
+  <ng-content></ng-content>
+
+</div>

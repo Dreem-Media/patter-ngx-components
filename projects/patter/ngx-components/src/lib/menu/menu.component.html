@@ -1,0 +1,10 @@
+<nav class="ptr-menu">
+  <ul>
+    <li *ngFor="let item of menuItems">
+      <a [href]="item.link || '#'" class="ptr-menu-item">
+        {{item.label}}
+      </a>
+      <ptr-menu *ngIf="item.children" [menuItems]="item.children"></ptr-menu>
+    </li>
+  </ul>
+</nav>
