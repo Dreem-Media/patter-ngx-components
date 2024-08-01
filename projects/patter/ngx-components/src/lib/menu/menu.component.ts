@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 export interface PtrMenuItem {
   label: string;
@@ -10,9 +11,10 @@ export interface PtrMenuItem {
 @Component({
   selector: 'ptr-menu',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './menu.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./menu.component.scss']
 })
 export class PtrMenuComponent {
 
