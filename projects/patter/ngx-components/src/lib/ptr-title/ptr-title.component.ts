@@ -15,7 +15,6 @@ export class PtrTitleComponent implements OnInit {
 
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
-  private titleService = inject(Title);
   private titleStrategy = inject(TitleStrategy);
 
   title$!: Observable<string>;

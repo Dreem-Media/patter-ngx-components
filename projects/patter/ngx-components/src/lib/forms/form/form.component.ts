@@ -31,7 +31,11 @@ export class PtrFormComponent {
     this.form = this.fb.group({});
     this.processedFields = this.config.fields.map(field => this.processField(field));
     this.processedFields.forEach(field => {
-      this.form.addControl(field.id, this.fb.control(field.value || '', field.required ? Validators.required : null));
+      if (field.type === 'select') {
+        this.form.addControl(field.id, this.fb.control(field.value ?? field.simpleOptions![0].value ?? null, field.required ? Validators.required : null));
+      } else {
+        this.form.addControl(field.id, this.fb.control(field.value || '', field.required ? Validators.required : null));
+      }
     });
 
     this.form.valueChanges.subscribe(values => {
