@@ -1,30 +1,31 @@
-export interface PtrFormFieldOption {
+import { AsyncValidatorFn, ValidatorFn } from "@angular/forms";
+import { Observable } from "rxjs";
+
+export interface PtrOption {
   label: string;
-  value: string;
+  value: any;
 }
 
-export interface PtrFormFieldOptionGroup {
-  label: string;
-  options: PtrFormFieldOption[];
+export interface PtrOptionGroup {
+  groupLabel: string;
+  options: PtrOption[];
 }
 
-export interface PtrFormFieldConfig {
-  id: string;
-  name?: string;
-  required?: boolean;
-  type: 'text' | 'textarea' | 'select' | 'date' | 'hidden';
-  simpleOptions?: PtrFormFieldOption[];
-  groupedOptions?: PtrFormFieldOptionGroup[];
+export interface PtrFormField {
+  type: 'text' | 'textarea' | 'number' | 'email' | 'password' | 'select' | 'date' | 'hidden';
+  name: string;
+  label: string;
+  value?: any;
+  options?: PtrOption[] | PtrOptionGroup[] | Observable<PtrOption[] | PtrOptionGroup[]>;
   size?: 'full' | 'half' | 'third';
-  value?: string;
-  class?: string;
-  maxlength?: number;
+  placeholder?: string;
+  validators?: ValidatorFn[];
+  asyncValidators?: AsyncValidatorFn[];
 }
 
 export interface PtrFormConfig {
   title?: string;
-  fields: PtrFormFieldConfig[];
-  submitName: string;
-  submitValue: string;
+  fields: PtrFormField[];
   formClass?: string;
+  submitText: string;
 }

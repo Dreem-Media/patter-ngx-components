@@ -1,52 +1,79 @@
-<div [class]="'gform_wrapper ' + (config.formClass || 'small-section')">
+<div [class]="'gform_wrapper ' + config.formClass">
+
+  <div class="gform_validation_errors" *ngIf="error">
+    <h2 class="gform_submission_error hide_summary">{{error}}</h2>
+  </div>
+
   <div *ngIf="config.title" class="gform_heading">
     <h2 class="gform_title">{{ config.title }}</h2>
   </div>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+
     <div class="gform_fields">
 
-      <ng-container *ngFor="let field of processedFields">
+      <ng-container *ngFor="let field of config.fields">
 
-        <div [class]="field.class">
-          <label *ngIf="field.type !== 'hidden'" [for]="field.id" class="gfield_label gform-field-label">
-            {{ field.name }}
-          </label>
+        <div class="gfield gfield--width-{{field.size}}" [class.gform_hidden]="field.type === 'hidden'"
+          [class.gfield_error]="formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched">
+
+          <label class="gfield_label gform-field-label" [for]="field.name">{{ field.label }}</label>
 
           <ng-container [ngSwitch]="field.type">
 
-            <textarea *ngSwitchCase="'textarea'" [id]="field.id" [formControlName]="field.id"></textarea>
+            <input *ngSwitchCase="'text'" [formControlName]="field.name" type="text" [id]="field.name" />
 
-            <select *ngSwitchCase="'select'" [id]="field.id" [formControlName]="field.id">
-              <ng-container *ngIf="field.simpleOptions">
-                <option *ngFor="let option of field.simpleOptions" [value]="option.value">
-                  {{ option.label }}
-                </option>
-              </ng-container>
-              <ng-container *ngIf="field.groupedOptions">
-                <optgroup *ngFor="let group of field.groupedOptions" [label]="group.label">
+            <textarea *ngSwitchCase="'textarea'" [id]="field.name" [formControlName]="field.name"></textarea>
+
+            <input *ngSwitchCase="'date'" [formControlName]="field.name" type="date" [id]="field.name" />
+
+            <input *ngSwitchCase="'number'" [formControlName]="field.name" type="number" [id]="field.name" />
+
+            <input *ngSwitchCase="'email'" [formControlName]="field.name" type="email" [id]="field.name" />
+
+            <input *ngSwitchCase="'password'" [formControlName]="field.name" type="password" [id]="field.name" />
+
+            <ng-container *ngSwitchCase="'select'">
+              <select [formControlName]="field.name" [id]="field.name">
+                <!-- Render grouped options -->
+                <optgroup *ngFor="let group of groupedOptions[field.name]" [label]="group.groupLabel">
                   <option *ngFor="let option of group.options" [value]="option.value">
                     {{ option.label }}
                   </option>
                 </optgroup>
-              </ng-container>
-            </select>
-
-            <input *ngSwitchDefault [type]="field.type" [id]="field.id" [formControlName]="field.id"
-              [attr.maxlength]="field.maxlength">
+                <!-- Render flat options -->
+                <option *ngFor="let option of flatOptions[field.name]" [value]="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+            </ng-container>
 
           </ng-container>
+
+          <div class="gfield_description validation_message gfield_validation_message"
+            *ngIf="formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched">
+            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['required']">This field is required.</ng-container>
+            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['email']">Please enter a valid email
+              address.</ng-container>
+            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['minlength']">
+              Minimum length is {{ formGroup.get(field.name)?.errors?.['minlength'].requiredLength }} characters.
+            </ng-container>
+            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['maxlength']">
+              Maximum length is {{ formGroup.get(field.name)?.errors?.['maxlength'].requiredLength }} characters.
+            </ng-container>
+            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['pattern']">
+              Please match the required format.
+            </ng-container>
+          </div>
 
         </div>
 
       </ng-container>
-
     </div>
+
     <div class="gform_footer">
-      <button type="submit" [name]="config.submitName"
-        [disabled]="loading || !form.valid">{{config.submitValue}}</button>
+      <button type="submit" [disabled]="loading || !formGroup.valid">{{config.submitText}}</button>
     </div>
+
   </form>
-
-  <ng-content></ng-content>
-
 </div>

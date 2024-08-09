@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PtrFormConfig, PtrFormFieldConfig } from '../interfaces';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { PtrFormConfig, PtrOption, PtrOptionGroup } from '../interfaces';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ptr-form',
@@ -13,70 +15,71 @@ import { PtrFormConfig, PtrFormFieldConfig } from '../interfaces';
   templateUrl: './form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PtrFormComponent {
+export class PtrFormComponent implements OnInit {
 
   @Input() config!: PtrFormConfig;
   @Input() loading = false;
+  @Input() error: string | null = null;
 
-  @Output() formChanges = new EventEmitter<AbstractControl<any>>();
-  @Output() formSubmit = new EventEmitter<AbstractControl<any>>();
+  @Output() formSubmit = new EventEmitter<any>();
+  @Output() formGroupCreated = new EventEmitter<FormGroup>();
 
-  form!: FormGroup;
-  processedFields: PtrFormFieldConfig[] = [];
+  formGroup!: FormGroup;
+  flatOptions: { [key: string]: PtrOption[] } = {};
+  groupedOptions: { [key: string]: PtrOptionGroup[] } = {};
 
   fb = inject(FormBuilder);
   cdr = inject(ChangeDetectorRef);
+  destroyRef = inject(DestroyRef)
 
-  ngOnInit() {
-    this.form = this.fb.group({});
-    this.processedFields = this.config.fields.map(field => this.processField(field));
-    this.processedFields.forEach(field => {
-      if (field.type === 'select') {
-        if (field.simpleOptions) {
-          this.form.addControl(field.id, this.fb.control(field.value ?? field.simpleOptions![0].value ?? null, field.required ? Validators.required : null));
-        } else if (field.groupedOptions) {
-          this.form.addControl(field.id, this.fb.control(field.value || field.groupedOptions[0].options[0].value, field.required ? Validators.required : null));
-        } else {
-          this.form.addControl(field.id, this.fb.control(field.value || '', field.required ? Validators.required : null));
-        }
-      } else {
-        this.form.addControl(field.id, this.fb.control(field.value || '', field.required ? Validators.required : null));
+  ngOnInit(): void {
+    this.buildForm();
+    this.formGroupCreated.emit(this.formGroup);
+
+    this.config.fields.forEach(field => {
+      if (field.type === 'select' && field.options instanceof Observable) {
+        field.options
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe(options => {
+            this.processOptions(field.name, options);
+            this.cdr.markForCheck(); // Trigger change detection after options are loaded
+          });
+      } else if (field.type === 'select' && Array.isArray(field.options)) {
+        this.processOptions(field.name, field.options);
       }
     });
+  }
 
-    this.form.valueChanges.subscribe(values => {
-      this.formChanges.emit(values);
+  buildForm(): void {
+    const group: any = {};
+    this.config.fields.forEach(field => {
+      group[field.name] = [field.value || '', field.validators || []];
     });
+    this.formGroup = this.fb.group(group);
   }
 
-  private processField(field: PtrFormFieldConfig): PtrFormFieldConfig {
-    const classes = ['gfield'];
-    if (field.size) classes.push(`gfield--width-${field.size}`);
-    if (field.type === 'hidden') classes.push('gform_hidden');
-    if (field.class) classes.push(field.class);
-
-    return {
-      ...field,
-      class: classes.join(' ')
-    };
+  onSubmit(): void {
+    if (this.formGroup.valid) {
+      this.formSubmit.emit(this.formGroup.value);
+    }
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      this.formSubmit.emit(this.form.value);
+  public resetForm(): void {
+    this.formGroup.reset();
+    this.config.fields.forEach(field => {
+      const control = this.formGroup.get(field.name);
+      control?.setValue(field.value || '', { emitEvent: false });
+    });
+    this.cdr.markForCheck();
+  }
+
+
+
+  private processOptions(fieldName: string, options: PtrOption[] | PtrOptionGroup[]): void {
+    if (options.length > 0 && 'options' in options[0]) {
+      this.groupedOptions[fieldName] = options as PtrOptionGroup[];
     } else {
-      console.log('Form is invalid');
+      this.flatOptions[fieldName] = options as PtrOption[];
     }
   }
-
-  resetForm() {
-    if (this.form) {
-      this.form.reset();
-      this.config.fields.forEach(field => {
-        this.form.get(field.id)?.setValue(field.value || null);
-      });
-      this.cdr.markForCheck();
-    }
-  }
-
 }
