@@ -12,9 +12,15 @@ import { computed, Injectable, signal, Signal } from '@angular/core';
  * })
  *
  * Usage:
+ * Set loading: this.loadingService.setLoading(true)
  * - Set loading: this.loadingService.setLoading(true, 'areaName')
- * - Get loading (template): {{ loadingService.isLoading('areaName') }}
+ * 
+ * - Get loading (template): {{ loadingService.isLoading()() }}
+ * - Get loading (template): {{ loadingService.isLoading('areaName')() }}
+ * 
+ * - Get loading (component): this.loadingService.isLoading()()
  * - Get loading (component): this.loadingService.isLoading('areaName')()
+ * 
  * - React to loading changes: effect(() => console.log('Loading:', this.loadingService.isLoading('areaName')()))
  */
 @Injectable({
