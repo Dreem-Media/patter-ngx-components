@@ -8,4 +8,7 @@ export * from './lib/forms/interfaces';
 export { PtrFormComponent } from './lib/forms/form/form.component';
 
 export { PtrTitleComponent } from './lib/ptr-title/ptr-title.component';
-// export { PtrTitleStrategy } from './lib/ptr-title/ptr-title-strategy';
+
+export { PtrLoadingSpinnerComponent } from './lib/loading-spinner/loading-spinner.component';
+
+export * from './lib/services/loading.service';
