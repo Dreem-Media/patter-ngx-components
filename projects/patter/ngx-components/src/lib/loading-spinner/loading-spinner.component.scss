@@ -1,0 +1,65 @@
+:host {
+  display: inline-block;
+  line-height: 0;
+}
+
+.vdx-progress-spinner {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  transform: scale3d(1, 1, 1);
+}
+
+.vdx-progress-spinner:before {
+  position: absolute;
+  content: '';
+  background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 40 40' style='enable-background:new 0 0 40 40;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%23272e3e;%7D%0A%3C/style%3E%3Ccircle class='st0' cx='34' cy='6' r='6'/%3E%3Ccircle class='st0' cx='6' cy='6' r='6'/%3E%3Ccircle class='st0' cx='6' cy='34' r='6'/%3E%3Ccircle class='st0' cx='34' cy='34' r='6'/%3E%3C/svg%3E");
+  height: 40px;
+  width: 40px;
+  left: -8px;
+  top: -8px;
+  border: none;
+  display: block;
+  animation: loader-anim 1.5s 0s ease-in-out infinite;
+}
+
+.vdx-progress-spinner:after {
+  content: '';
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  border: none;
+  border-radius: 12px;
+  display: block;
+  left: 6px;
+  top: 6px;
+  background-color: #272e3e;
+  animation: loader-anim-dot 1.5s 0s ease-in-out infinite;
+}
+
+@keyframes loader-anim {
+  0% {
+    transform: rotate(0deg) scale(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: rotate(180deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg) scale(0);
+    opacity: 0.2;
+  }
+}
+
+@keyframes loader-anim-dot {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

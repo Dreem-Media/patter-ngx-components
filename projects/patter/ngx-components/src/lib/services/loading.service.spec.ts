@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { LoadingService } from './loading.service';
+import { PtrLoadingService } from './loading.service';
 
-describe('LoadingService', () => {
-  let service: LoadingService;
+describe('PtrLoadingService', () => {
+  let service: PtrLoadingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LoadingService);
+    service = TestBed.inject(PtrLoadingService);
   });
 
   it('should be created', () => {

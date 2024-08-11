@@ -10,5 +10,6 @@ export { PtrFormComponent } from './lib/forms/form/form.component';
 export { PtrTitleComponent } from './lib/ptr-title/ptr-title.component';
 
 export { PtrLoadingSpinnerComponent } from './lib/loading-spinner/loading-spinner.component';
+export { PtrLoadingSpinnerDirective } from './lib/loading-spinner/loading-spinner.directive';
 
-export * from './lib/services/loading.service';
+export { PtrLoadingService } from './lib/services/loading.service';

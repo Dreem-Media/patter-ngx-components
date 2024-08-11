@@ -5,9 +5,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'ptr-loading-spinner',
   standalone: true,
   imports: [CommonModule],
-  template: `<div class="spinner-overlay"><span>Loading...</span></div>`,
+  template: `<div class="vdx-progress-spinner"></div>`,
+  styleUrls: ["./loading-spinner.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PtrLoadingSpinnerComponent {
-
-}
+export class PtrLoadingSpinnerComponent { }

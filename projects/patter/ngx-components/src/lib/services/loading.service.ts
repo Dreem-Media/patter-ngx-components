@@ -8,7 +8,7 @@ import { computed, Injectable, signal, Signal } from '@angular/core';
  * @Component({
  *   selector: 'app-example',
  *   templateUrl: './example.component.html',
- *   providers: [LoadingService]
+ *   providers: [PtrLoadingService]
  * })
  *
  * Usage:
@@ -26,7 +26,7 @@ import { computed, Injectable, signal, Signal } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class LoadingService {
+export class PtrLoadingService {
 
   private globalTaskCount = signal(0);
   private loadingAreas = new Map<string, ReturnType<typeof signal<number>>>();
