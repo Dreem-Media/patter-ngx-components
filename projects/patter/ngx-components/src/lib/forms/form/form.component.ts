@@ -4,13 +4,15 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PtrFormConfig, PtrOption, PtrOptionGroup } from '../interfaces';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
+import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
 
 @Component({
   selector: 'ptr-form',
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PtrButtonComponent
   ],
   templateUrl: './form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush

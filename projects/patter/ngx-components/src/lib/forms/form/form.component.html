@@ -72,7 +72,7 @@
     </div>
 
     <div class="gform_footer">
-      <button type="submit" [disabled]="loading || !formGroup.valid">{{config.submitText}}</button>
+      <ptr-button buttonType="submit" [isDisabled]="loading || !formGroup.valid">{{config.submitText}}</ptr-button>
     </div>
 
   </form>
