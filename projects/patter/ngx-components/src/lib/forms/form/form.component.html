@@ -21,17 +21,7 @@
 
           <ng-container [ngSwitch]="field.type">
 
-            <input *ngSwitchCase="'text'" [formControlName]="field.name" type="text" [id]="field.name" />
-
             <textarea *ngSwitchCase="'textarea'" [id]="field.name" [formControlName]="field.name"></textarea>
-
-            <input *ngSwitchCase="'date'" [formControlName]="field.name" type="date" [id]="field.name" />
-
-            <input *ngSwitchCase="'number'" [formControlName]="field.name" type="number" [id]="field.name" />
-
-            <input *ngSwitchCase="'email'" [formControlName]="field.name" type="email" [id]="field.name" />
-
-            <input *ngSwitchCase="'password'" [formControlName]="field.name" type="password" [id]="field.name" />
 
             <ng-container *ngSwitchCase="'select'">
               <select [formControlName]="field.name" [id]="field.name">
@@ -46,6 +36,11 @@
                   {{ option.label }}
                 </option>
               </select>
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+              <input [formControlName]="field.name" [id]="field.name" [type]="field.type"
+                [autocomplete]="field.autocomplete ?? ''" />
             </ng-container>
 
           </ng-container>
@@ -65,6 +60,16 @@
               Please match the required format.
             </ng-container>
           </div>
+
+          <ng-container
+            *ngIf="field.validationMessages && formGroup.invalid && !formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched">
+            <ng-container *ngFor="let error of formGroup.errors | keyvalue">
+              <div *ngIf="field.validationMessages[error.key]"
+                class="gfield_description validation_message gfield_validation_message">
+                {{ field.validationMessages[error.key] }}
+              </div>
+            </ng-container>
+          </ng-container>
 
         </div>
 

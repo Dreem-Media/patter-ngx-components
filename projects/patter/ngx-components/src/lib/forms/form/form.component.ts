@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PtrFormConfig, PtrOption, PtrOptionGroup } from '../interfaces';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -57,7 +57,8 @@ export class PtrFormComponent implements OnInit {
     this.config.fields.forEach(field => {
       group[field.name] = [field.value || '', field.validators || []];
     });
-    this.formGroup = this.fb.group(group);
+
+    this.formGroup = this.fb.group(group, this.config.formValidators ? { validators: this.config.formValidators } : null);
   }
 
   onSubmit(): void {

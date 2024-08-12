@@ -20,12 +20,15 @@ export interface PtrFormField {
   size?: 'full' | 'half' | 'third';
   placeholder?: string;
   validators?: ValidatorFn[];
+  autocomplete?: string;
   asyncValidators?: AsyncValidatorFn[];
+  validationMessages?: { [key: string]: string };
 }
 
 export interface PtrFormConfig {
   title?: string;
   fields: PtrFormField[];
   formClass?: string;
+  formValidators?: ValidatorFn[];
   submitText: string;
 }
