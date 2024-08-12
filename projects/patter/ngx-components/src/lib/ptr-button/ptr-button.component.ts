@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, EventEmitter, HostBinding, Input, Output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -7,7 +6,7 @@ type ButtonStyle = 'normal' | 'error' | 'secondary' | 'icon';
 @Component({
   selector: 'ptr-button',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [RouterLink],
   templateUrl: './ptr-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

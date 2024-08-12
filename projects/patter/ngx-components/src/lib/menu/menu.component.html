@@ -1,8 +1,10 @@
 <nav class="ptr-menu">
   <ul class="menu">
-    <li class="menu-item" *ngFor="let item of menuItems" routerLinkActive="current_page_item"
-      [routerLinkActiveOptions]="{exact: true}">
-      <a [routerLink]="item.link || '#'">{{item.label}}</a>
-    </li>
+    @for (item of menuItems; track item) {
+      <li class="menu-item" routerLinkActive="current_page_item"
+        [routerLinkActiveOptions]="{exact: true}">
+        <a [routerLink]="item.link || '#'">{{item.label}}</a>
+      </li>
+    }
   </ul>
 </nav>

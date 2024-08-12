@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, TitleStrategy } from '@angular/router';
 import { filter, map, Observable } from 'rxjs';
 
@@ -8,7 +7,7 @@ import { filter, map, Observable } from 'rxjs';
   selector: 'ptr-title',
   standalone: true,
   imports: [CommonModule],
-  template: '<header class="entry-header is-layout-constrained my-3" *ngIf="!(hideTitle$ | async)"><h1 class="entry-title">{{ title$ | async }}</h1></header>',
+  template: '@if (!(hideTitle$ | async)) {<header class="entry-header is-layout-constrained my-3"><h1 class="entry-title">{{ title$ | async }}</h1></header>}',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrTitleComponent implements OnInit {

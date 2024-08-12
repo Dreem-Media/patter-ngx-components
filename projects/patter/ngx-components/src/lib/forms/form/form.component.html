@@ -1,84 +1,92 @@
 <div [class]="'gform_wrapper ' + config.formClass">
 
-  <div class="gform_validation_errors" *ngIf="error">
-    <h2 class="gform_submission_error hide_summary">{{error}}</h2>
-  </div>
+  @if (error) {
+    <div class="gform_validation_errors">
+      <h2 class="gform_submission_error hide_summary">{{error}}</h2>
+    </div>
+  }
 
-  <div *ngIf="config.title" class="gform_heading">
-    <h2 class="gform_title">{{ config.title }}</h2>
-  </div>
+  @if (config.title) {
+    <div class="gform_heading">
+      <h2 class="gform_title">{{ config.title }}</h2>
+    </div>
+  }
 
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
     <div class="gform_fields">
 
-      <ng-container *ngFor="let field of config.fields">
-
+      @for (field of config.fields; track field.name) {
         <div class="gfield gfield--width-{{field.size}}" [class.gform_hidden]="field.type === 'hidden'"
           [class.gfield_error]="formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched">
-
           <label class="gfield_label gform-field-label" [for]="field.name">{{ field.label }}</label>
-
-          <ng-container [ngSwitch]="field.type">
-
-            <textarea *ngSwitchCase="'textarea'" [id]="field.name" [formControlName]="field.name"></textarea>
-
-            <ng-container *ngSwitchCase="'select'">
+          @switch (field.type) {
+            @case ('textarea') {
+              <textarea [id]="field.name" [formControlName]="field.name"></textarea>
+            }
+            @case ('select') {
               <select [formControlName]="field.name" [id]="field.name">
                 <!-- Render grouped options -->
-                <optgroup *ngFor="let group of groupedOptions[field.name]" [label]="group.groupLabel">
-                  <option *ngFor="let option of group.options" [value]="option.value">
+                @for (group of groupedOptions[field.name]; track group) {
+                  <optgroup [label]="group.groupLabel">
+                    @for (option of group.options; track option) {
+                      <option [value]="option.value">
+                        {{ option.label }}
+                      </option>
+                    }
+                  </optgroup>
+                }
+                <!-- Render flat options -->
+                @for (option of flatOptions[field.name]; track option) {
+                  <option [value]="option.value">
                     {{ option.label }}
                   </option>
-                </optgroup>
-                <!-- Render flat options -->
-                <option *ngFor="let option of flatOptions[field.name]" [value]="option.value">
-                  {{ option.label }}
-                </option>
+                }
               </select>
-            </ng-container>
-
-            <ng-container *ngSwitchDefault>
+            }
+            @default {
               <input [formControlName]="field.name" [id]="field.name" [type]="field.type"
                 [autocomplete]="field.autocomplete ?? ''" />
-            </ng-container>
-
-          </ng-container>
-
-          <div class="gfield_description validation_message gfield_validation_message"
-            *ngIf="formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched">
-            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['required']">This field is required.</ng-container>
-            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['email']">Please enter a valid email
-              address.</ng-container>
-            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['minlength']">
-              Minimum length is {{ formGroup.get(field.name)?.errors?.['minlength'].requiredLength }} characters.
-            </ng-container>
-            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['maxlength']">
-              Maximum length is {{ formGroup.get(field.name)?.errors?.['maxlength'].requiredLength }} characters.
-            </ng-container>
-            <ng-container *ngIf="formGroup.get(field.name)?.errors?.['pattern']">
-              Please match the required format.
-            </ng-container>
-          </div>
-
-          <ng-container
-            *ngIf="field.validationMessages && formGroup.invalid && !formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched">
-            <ng-container *ngFor="let error of formGroup.errors | keyvalue">
-              <div *ngIf="field.validationMessages[error.key]"
-                class="gfield_description validation_message gfield_validation_message">
-                {{ field.validationMessages[error.key] }}
+              }
+            }
+            @if (formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched) {
+              <div class="gfield_description validation_message gfield_validation_message"
+                >
+                @if (formGroup.get(field.name)?.errors?.['required']) {
+                  This field is required.
+                }
+                @if (formGroup.get(field.name)?.errors?.['email']) {
+                  Please enter a valid email
+                  address.
+                }
+                @if (formGroup.get(field.name)?.errors?.['minlength']) {
+                  Minimum length is {{ formGroup.get(field.name)?.errors?.['minlength'].requiredLength }} characters.
+                }
+                @if (formGroup.get(field.name)?.errors?.['maxlength']) {
+                  Maximum length is {{ formGroup.get(field.name)?.errors?.['maxlength'].requiredLength }} characters.
+                }
+                @if (formGroup.get(field.name)?.errors?.['pattern']) {
+                  Please match the required format.
+                }
               </div>
-            </ng-container>
-          </ng-container>
+            }
+            @if (field.validationMessages && formGroup.invalid && !formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched) {
+              @for (error of formGroup.errors | keyvalue; track error) {
+                @if (field.validationMessages[error.key]) {
+                  <div
+                    class="gfield_description validation_message gfield_validation_message">
+                    {{ field.validationMessages[error.key] }}
+                  </div>
+                }
+              }
+            }
+          </div>
+        }
+      </div>
 
-        </div>
+      <div class="gform_footer">
+        <ptr-button buttonType="submit" [isDisabled]="loading || !formGroup.valid">{{config.submitText}}</ptr-button>
+      </div>
 
-      </ng-container>
-    </div>
-
-    <div class="gform_footer">
-      <ptr-button buttonType="submit" [isDisabled]="loading || !formGroup.valid">{{config.submitText}}</ptr-button>
-    </div>
-
-  </form>
-</div>
+    </form>
+  </div>

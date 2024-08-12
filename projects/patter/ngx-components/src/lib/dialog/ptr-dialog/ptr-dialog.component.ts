@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
 
@@ -6,7 +5,6 @@ import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
   selector: 'ptr-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     PtrButtonComponent
   ],
   templateUrl: './ptr-dialog.component.html',
