@@ -1,0 +1,11 @@
+<dialog #dialogElement class="ptr-modal" (close)="onClose()">
+  <div class="ptr-modal__content">
+    <button class="ptr-modal__close" (click)="close()" aria-label="Close dialog">
+      &times;
+    </button>
+    <p>{{ message }}</p>
+    <div class="ptr-modal__actions">
+      <ptr-button [buttonStyle]="buttonStyle" (clicked)="confirm()" [isSmallSize]="true">{{buttonText}}</ptr-button>
+    </div>
+  </div>
+</dialog>

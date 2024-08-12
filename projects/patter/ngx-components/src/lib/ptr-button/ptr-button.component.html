@@ -1,9 +1,14 @@
-@if (isLink()) {
-<a [href]="href()" [class]="buttonClasses()" [attr.disabled]="disabled() ? '' : null" (click)="onClick($event)">
+<ng-template #contentTpl>
   <ng-content></ng-content>
+</ng-template>
+
+@if (isLink()) {
+<a [attr.href]="href()" [routerLink]="routerLink()" [class]="buttonClasses()" [attr.disabled]="disabled() ? '' : null"
+  (click)="onClick($event)">
+  <ng-container [ngTemplateOutlet]="contentTpl"></ng-container>
 </a>
 } @else {
 <button [type]="type()" [class]="buttonClasses()" [disabled]="disabled()" (click)="onClick($event)">
-  <ng-content></ng-content>
+  <ng-container [ngTemplateOutlet]="contentTpl"></ng-container>
 </button>
 }
