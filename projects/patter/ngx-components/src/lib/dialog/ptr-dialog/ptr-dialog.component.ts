@@ -10,6 +10,7 @@ import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
     PtrButtonComponent
   ],
   templateUrl: './ptr-dialog.component.html',
+  styleUrls: ["./ptr-dialog.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrDialogComponent {

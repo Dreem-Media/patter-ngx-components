@@ -1,0 +1,6 @@
+<span (mouseenter)="showTooltip()" (mouseleave)="hideTooltip()" class="tooltip-trigger">
+  <ng-content></ng-content>
+</span>
+<dialog #tooltipDialog class="ptr-tooltip">
+  <div class="ptr-tooltip__content">{{ content }}</div>
+</dialog>

@@ -1,0 +1,64 @@
+.ptr-modal {
+  border-radius: var(--wp--custom--default-border-radius);
+  border: none;
+  padding: 1rem;
+}
+
+.ptr-modal__content {
+  padding: 1rem;
+  position: relative;
+}
+
+.ptr-modal__close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1rem;
+}
+
+.ptr-modal__actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+// ------------------------------
+
+dialog.ptr-modal {
+  /* Closed state of the dialog */
+  opacity: 0;
+  transition: all 0.7s allow-discrete;
+
+  /* Open state of the dialog */
+  &[open] {
+    opacity: 1;
+  }
+
+  /* Transition the :backdrop when the dialog modal is promoted to the top layer */
+  &::backdrop {
+    background-color: rgb(0 0 0 / 0%);
+    transition: all 0.7s allow-discrete;
+    backdrop-filter: blur(2px);
+  }
+
+  &[open]::backdrop {
+    background-color: rgb(0 0 0 / 40%);
+  }
+}
+
+/*   Before-open state  */
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+  }
+}
+
+@starting-style {
+  dialog[open]::backdrop {
+    background-color: rgb(0 0 0 / 0%);
+  }
+}

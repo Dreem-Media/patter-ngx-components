@@ -17,3 +17,5 @@ export { PtrLoadingService } from './lib/services/loading.service';
 export { PtrButtonComponent } from './lib/ptr-button/ptr-button.component';
 
 export { PtrDialogService } from './lib/dialog/ptr-dialog.service';
+export { PtrDialogComponent } from './lib/dialog/ptr-dialog/ptr-dialog.component';
+export { PtrTooltipComponent } from './lib/dialog/ptr-tooltip/ptr-tooltip.component';

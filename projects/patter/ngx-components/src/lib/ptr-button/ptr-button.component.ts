@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, EventEmitter, HostBinding, Input, Output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-type ButtonStyle = 'normal' | 'error' | 'secondary';
+type ButtonStyle = 'normal' | 'error' | 'secondary' | 'icon';
 
 @Component({
   selector: 'ptr-button',
@@ -20,6 +20,9 @@ export class PtrButtonComponent {
     }
     if (this.style() === 'error') {
       hostClass.push('is-style-error-button');
+    }
+    if (this.style() === 'icon') {
+      hostClass.push('is-style-icon-button');
     }
     if (this.smallSize()) {
       hostClass.push('is-style-smaller-element');
@@ -62,6 +65,12 @@ export class PtrButtonComponent {
   @Input() set isSmallSize(value: boolean) {
     if (value) {
       this.smallSize.set(true);
+    }
+  }
+
+  @Input() set isIconButton(value: boolean) {
+    if (value) {
+      this.style.set('icon');
     }
   }
 
