@@ -7,7 +7,7 @@ import { filter, map, Observable } from 'rxjs';
   selector: 'ptr-title',
   standalone: true,
   imports: [CommonModule],
-  template: '@if (!(hideTitle$ | async)) {<header class="entry-header is-layout-constrained my-3"><h1 class="entry-title">{{ title$ | async }}</h1></header>}',
+  template: '@if (!(hideTitle$ | async)) {<header class="entry-header is-layout-constrained my-3"><h1 class="entry-title">{{ displayTitle$ | async }}</h1></header>}',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrTitleComponent implements OnInit {
@@ -16,7 +16,7 @@ export class PtrTitleComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private titleStrategy = inject(TitleStrategy);
 
-  title$!: Observable<string>;
+  displayTitle$!: Observable<string>;
   hideTitle$!: Observable<boolean>;
 
   ngOnInit() {
@@ -29,15 +29,22 @@ export class PtrTitleComponent implements OnInit {
       map(route => !!route.snapshot.data['hideTitle'])
     );
 
-    this.title$ = routeEvents$.pipe(
+    this.displayTitle$ = routeEvents$.pipe(
       map(route => {
         if (route.snapshot.data['hideTitle']) {
           return '';
         }
-        return this.titleStrategy.getResolvedTitleForRoute(route.snapshot) || '';
+        // Check for a custom display title in the route data
+        const customDisplayTitle = route.snapshot.data['displayTitle'];
+        if (customDisplayTitle) {
+          return customDisplayTitle;
+        }
+        // If no custom display title, use the resolved title from TitleStrategy
+        const resolvedTitle = this.titleStrategy.getResolvedTitleForRoute(route.snapshot) || '';
+        // Remove any common suffix (checking for both ' | ' and ' - ' separators)
+        return this.removeCommonSuffix(resolvedTitle);
       })
     );
-
   }
 
   private getRoute(route: ActivatedRoute): ActivatedRoute {
@@ -45,6 +52,17 @@ export class PtrTitleComponent implements OnInit {
       route = route.firstChild;
     }
     return route;
+  }
+
+  private removeCommonSuffix(title: string): string {
+    const separators = [' | ', ' - '];
+    for (const separator of separators) {
+      const parts = title.split(separator);
+      if (parts.length > 1) {
+        return parts[0].trim();
+      }
+    }
+    return title.trim();
   }
 
 }
