@@ -41,8 +41,9 @@ export class PtrTitleComponent implements OnInit {
         }
         // If no custom display title, use the resolved title from TitleStrategy
         const resolvedTitle = this.titleStrategy.getResolvedTitleForRoute(route.snapshot) || '';
+        return resolvedTitle;
         // Remove any common suffix (checking for both ' | ' and ' - ' separators)
-        return this.removeCommonSuffix(resolvedTitle);
+        // return this.removeCommonSuffix(resolvedTitle);
       })
     );
   }
