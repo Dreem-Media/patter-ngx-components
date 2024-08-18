@@ -6,6 +6,7 @@ export * from './lib/menu/menu.component';
 
 export * from './lib/forms/interfaces';
 export { PtrFormComponent } from './lib/forms/form/form.component';
+export { PtrSelectComponent } from './lib/forms/input/select/select.component';
 
 export { PtrTitleComponent } from './lib/ptr-title/ptr-title.component';
 
