@@ -46,7 +46,7 @@
             }
             @default {
               <input [formControlName]="field.name" [id]="field.name" [type]="field.type"
-                [autocomplete]="field.autocomplete ?? ''" />
+                [attr.autocomplete]="field.autocomplete || null" />
               }
             }
             @if (formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched) {

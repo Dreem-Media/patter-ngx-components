@@ -7,7 +7,7 @@ import { filter, map, Observable } from 'rxjs';
   selector: 'ptr-title',
   standalone: true,
   imports: [CommonModule],
-  template: '@if (!(hideTitle$ | async)) {<header class="entry-header is-layout-constrained my-3"><h1 class="entry-title">{{ displayTitle$ | async }}</h1></header>}',
+  template: '@if ((hideTitle$|async) === false) {<header class="entry-header is-layout-constrained my-3"><h1 class="entry-title">{{ displayTitle$ | async }}</h1></header>}',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrTitleComponent implements OnInit {

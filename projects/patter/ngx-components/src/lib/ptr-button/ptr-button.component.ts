@@ -34,7 +34,7 @@ export class PtrButtonComponent {
   type = signal<'button' | 'submit' | 'reset'>('button');
   disabled = signal(false);
   href = signal<string | null>(null);
-  routerLink = signal<string | any[] | null>(null);
+  routerLink = signal<string | (string|number)[] | null>(null);
   additionalClasses = signal('');
   smallSize = signal(false);
 
@@ -54,7 +54,7 @@ export class PtrButtonComponent {
     this.href.set(value);
   }
 
-  @Input() set routerLinkValue(value: string | any[] | null) {
+  @Input() set routerLinkValue(value: string | (string|number)[] | null) {
     this.routerLink.set(value);
   }
 

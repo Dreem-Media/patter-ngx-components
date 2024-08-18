@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, AfterViewInit } from '@angular/core';
 import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
 
 @Component({
@@ -11,12 +11,12 @@ import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
   styleUrls: ["./ptr-dialog.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PtrDialogComponent {
+export class PtrDialogComponent implements AfterViewInit {
 
   @ViewChild('dialogElement') dialogElement!: ElementRef<HTMLDialogElement>;
 
-  @Input() message: string = '';
-  @Input() buttonText: string = 'Confirm';
+  @Input() message = '';
+  @Input() buttonText = 'Confirm';
   @Input() buttonStyle: 'normal' | 'error' | 'secondary' = 'normal';
 
   @Output() closed = new EventEmitter<boolean | null>();

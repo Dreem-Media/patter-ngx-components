@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 
 export interface PtrOption {
   label: string;
-  value: any;
+  value: string;
 }
 
 export interface PtrOptionGroup {
@@ -15,14 +15,14 @@ export interface PtrFormField {
   type: 'text' | 'textarea' | 'number' | 'email' | 'password' | 'select' | 'date' | 'hidden';
   name: string;
   label: string;
-  value?: any;
+  value?: unknown;
   options?: PtrOption[] | PtrOptionGroup[] | Observable<PtrOption[] | PtrOptionGroup[]>;
   size?: 'full' | 'half' | 'third';
   placeholder?: string;
   validators?: ValidatorFn[];
   autocomplete?: string;
   asyncValidators?: AsyncValidatorFn[];
-  validationMessages?: { [key: string]: string };
+  validationMessages?: Record<string, string>;
 }
 
 export interface PtrFormConfig {

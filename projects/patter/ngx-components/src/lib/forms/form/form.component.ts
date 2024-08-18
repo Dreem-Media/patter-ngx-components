@@ -23,12 +23,13 @@ export class PtrFormComponent implements OnInit {
   @Input() loading = false;
   @Input() error: string | null = null;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Output() formSubmit = new EventEmitter<any>();
   @Output() formGroupCreated = new EventEmitter<FormGroup>();
 
   formGroup!: FormGroup;
-  flatOptions: { [key: string]: PtrOption[] } = {};
-  groupedOptions: { [key: string]: PtrOptionGroup[] } = {};
+  flatOptions: Record<string, PtrOption[]> = {};
+  groupedOptions: Record<string, PtrOptionGroup[]> = {};
 
   fb = inject(FormBuilder);
   cdr = inject(ChangeDetectorRef);
@@ -53,7 +54,7 @@ export class PtrFormComponent implements OnInit {
   }
 
   buildForm(): void {
-    const group: any = {};
+    const group: Record<string, unknown> = {};
     this.config.fields.forEach(field => {
       group[field.name] = [field.value || '', field.validators || []];
     });
@@ -76,8 +77,6 @@ export class PtrFormComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
-
-
   private processOptions(fieldName: string, options: PtrOption[] | PtrOptionGroup[]): void {
     if (options.length > 0 && 'options' in options[0]) {
       this.groupedOptions[fieldName] = options as PtrOptionGroup[];
@@ -85,4 +84,5 @@ export class PtrFormComponent implements OnInit {
       this.flatOptions[fieldName] = options as PtrOption[];
     }
   }
+
 }

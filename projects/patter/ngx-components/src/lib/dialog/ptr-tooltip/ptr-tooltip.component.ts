@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'ptr-tooltip',
@@ -10,7 +11,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, Vi
 })
 export class PtrTooltipComponent {
 
-  @Input() content: string = '';
+  @Input() content = '';
 
   @ViewChild('tooltipDialog') tooltipDialog!: ElementRef<HTMLDialogElement>;
 

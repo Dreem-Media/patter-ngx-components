@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { ChangeDetectionStrategy, Component, computed, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, Signal, signal, ViewChild } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -24,9 +26,10 @@ export class PtrSelectComponent {
   @Input() set options(value: string[]) {
     this._options.set(value);
   }
-  @Input() placeholder: string = 'Select an option';
+  @Input() placeholder = 'Select an option';
   @Output() selectionChange = new EventEmitter<string | null>();
 
+  @ViewChild('selectButton') selectButton!: ElementRef<HTMLButtonElement>;
   @ViewChild('selectDialog') selectDialog!: ElementRef<HTMLDialogElement>;
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
@@ -48,8 +51,8 @@ export class PtrSelectComponent {
   listId = `${this.componentId}-list`;
   searchId = `${this.componentId}-search`;
 
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: (value: string | null) => void = () => { };
+  onTouched: () => void = () => { };
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -141,16 +144,16 @@ export class PtrSelectComponent {
     this.value.set(value);
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: string | null) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    // Implement if needed
+    this.selectButton.nativeElement.disabled = isDisabled;
   }
 
 }

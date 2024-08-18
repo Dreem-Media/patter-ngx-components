@@ -1,10 +1,11 @@
+<!-- eslint-disable @angular-eslint/template/role-has-required-aria -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <div class="select-container">
-  <button type="button" class="select-button" [attr.aria-haspopup]="'listbox'" [attr.aria-expanded]="isOpen()"
+  <button #selectButton type="button" class="select-button" [attr.aria-haspopup]="'listbox'" [attr.aria-expanded]="isOpen()"
     [attr.aria-labelledby]="labelId" (click)="toggleDialog()">
     <span [attr.id]="labelId">{{ value() || placeholder }}</span>
-    <span class="select-arrow" aria-hidden="true">▼</span>
   </button>
-  <dialog #selectDialog (keydown)="onDialogKeyDown($event)" [attr.aria-label]="'Options'">
+  <dialog #selectDialog (keydown)="onDialogKeyDown($event)" [attr.aria-label]="'Options'" class="select-dialog">
     <div role="combobox" [attr.aria-expanded]="isOpen()" [attr.aria-owns]="listId">
       <input #searchInput [ngModel]="searchTerm()" (ngModelChange)="updateSearchTerm($event)"
         (keydown)="onInputKeyDown($event)" [attr.aria-autocomplete]="'list'" [attr.aria-controls]="listId"
