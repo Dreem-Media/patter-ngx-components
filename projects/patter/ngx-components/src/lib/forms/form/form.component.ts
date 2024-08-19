@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { PtrFormConfig, PtrOption, PtrOptionGroup } from '../interfaces';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
+import { PtrFormConfig } from '../interfaces';
 import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
+import { PtrSelectComponent } from "../input/select/select.component";
 
 @Component({
   selector: 'ptr-form',
@@ -12,8 +11,9 @@ import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    PtrButtonComponent
-  ],
+    PtrButtonComponent,
+    PtrSelectComponent
+],
   templateUrl: './form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -28,8 +28,6 @@ export class PtrFormComponent implements OnInit {
   @Output() formGroupCreated = new EventEmitter<FormGroup>();
 
   formGroup!: FormGroup;
-  flatOptions: Record<string, PtrOption[]> = {};
-  groupedOptions: Record<string, PtrOptionGroup[]> = {};
 
   fb = inject(FormBuilder);
   cdr = inject(ChangeDetectorRef);
@@ -38,19 +36,6 @@ export class PtrFormComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
     this.formGroupCreated.emit(this.formGroup);
-
-    this.config.fields.forEach(field => {
-      if (field.type === 'select' && field.options instanceof Observable) {
-        field.options
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe(options => {
-            this.processOptions(field.name, options);
-            this.cdr.markForCheck(); // Trigger change detection after options are loaded
-          });
-      } else if (field.type === 'select' && Array.isArray(field.options)) {
-        this.processOptions(field.name, field.options);
-      }
-    });
   }
 
   buildForm(): void {
@@ -75,14 +60,6 @@ export class PtrFormComponent implements OnInit {
       control?.setValue(field.value || '', { emitEvent: false });
     });
     this.cdr.markForCheck();
-  }
-
-  private processOptions(fieldName: string, options: PtrOption[] | PtrOptionGroup[]): void {
-    if (options.length > 0 && 'options' in options[0]) {
-      this.groupedOptions[fieldName] = options as PtrOptionGroup[];
-    } else {
-      this.flatOptions[fieldName] = options as PtrOption[];
-    }
   }
 
 }

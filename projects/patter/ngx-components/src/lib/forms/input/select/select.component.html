@@ -1,9 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/role-has-required-aria -->
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <div class="select-container">
-  <button #selectButton type="button" class="select-button" [attr.aria-haspopup]="'listbox'" [attr.aria-expanded]="isOpen()"
-    [attr.aria-labelledby]="labelId" (click)="toggleDialog()">
-    <span [attr.id]="labelId">{{ value() || placeholder }}</span>
+  <button #selectButton type="button" class="select-button" [attr.aria-haspopup]="'listbox'"
+    [attr.aria-expanded]="isOpen()" [attr.aria-labelledby]="labelId" (click)="toggleDialog()">
+    <span [attr.id]="labelId">@if (displayValue(); as dValue) { {{dValue}} } @else { {{placeholder}} }</span>
   </button>
   <dialog #selectDialog (keydown)="onDialogKeyDown($event)" [attr.aria-label]="'Options'" class="select-dialog">
     <div role="combobox" [attr.aria-expanded]="isOpen()" [attr.aria-owns]="listId">
@@ -12,24 +12,29 @@
         placeholder="Search..." class="search-input">
     </div>
     <ul [attr.id]="listId" role="listbox" class="option-list">
-      @for (option of filteredOptions(); track option; let i = $index) {
-      <li role="option" [attr.aria-selected]="option === value()" [class.selected]="option === value()"
-        [class.highlighted]="i === highlightedIndex()" (click)="selectOption(option)"
-        (keydown)="onOptionKeyDown($event, option)" [attr.tabindex]="i === highlightedIndex() ? 0 : -1">
-        {{ option }}
+      @for (item of filteredOptions(); track item) {
+      @if (item.type === 'option') {
+      <li role="option" [attr.id]="item.value" [attr.aria-selected]="item.value === value()"
+        [class.selected]="item.value === value()" [class.highlighted]="item === filteredOptions()[highlightedIndex()]"
+        (click)="selectOption(item.value!)" (keydown)="onOptionKeyDown($event, item.value!)"
+        [attr.tabindex]="item === filteredOptions()[highlightedIndex()] ? 0 : -1">
+        {{ item.label }}
       </li>
+      } @else {
+      <li role="group" [attr.aria-label]="item.label">
+        {{ item.label }}
+      </li>
+      @for (option of item.options!; track option) {
+      <li role="option" [attr.id]="option.value" [attr.aria-selected]="option.value === value()"
+        [class.selected]="option.value === value()"
+        [class.highlighted]="option === filteredOptions()[highlightedIndex()]" (click)="selectOption(option.value!)"
+        (keydown)="onOptionKeyDown($event, option.value!)"
+        [attr.tabindex]="option === filteredOptions()[highlightedIndex()] ? 0 : -1">
+        {{ option.label }}
+      </li>
+      }
+      }
       }
     </ul>
   </dialog>
 </div>
-
-<hr class="my-3">
-
-<form>
-  <select>
-    <option value="volvo">Volvo</option>
-    <option value="saab">Saab</option>
-    <option value="mercedes">Mercedes</option>
-    <option value="audi">Audi</option>
-  </select>
-</form>
