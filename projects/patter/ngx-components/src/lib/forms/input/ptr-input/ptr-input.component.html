@@ -1,0 +1,4 @@
+<label class="gfield_label gform-field-label" [attr.for]="inputId">{{ label }}</label>
+<input #input [id]="inputId" [type]="type" [attr.autocomplete]="autocomplete || null"
+  [attr.placeholder]="placeholder || null" [ngModel]="inputValue()" (ngModelChange)="onInputChange($event)"
+  (focus)="onFocus()" (blur)="onBlur()" />

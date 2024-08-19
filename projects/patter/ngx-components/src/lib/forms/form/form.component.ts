@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PtrFormConfig } from '../interfaces';
 import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
 import { PtrSelectComponent } from "../input/select/select.component";
+import { PtrInputComponent } from '../input/ptr-input/ptr-input.component';
 
 @Component({
   selector: 'ptr-form',
@@ -11,8 +12,11 @@ import { PtrSelectComponent } from "../input/select/select.component";
   imports: [
     CommonModule,
     ReactiveFormsModule,
+
     PtrButtonComponent,
-    PtrSelectComponent
+
+    PtrSelectComponent,
+    PtrInputComponent
 ],
   templateUrl: './form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush

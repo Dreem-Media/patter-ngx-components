@@ -29,9 +29,8 @@
               <ptr-select [label]="field.label" [formControlName]="field.name" [options]="field.options" [placeholder]="field.placeholder"></ptr-select>
             }
             @default {
-              <label class="gfield_label gform-field-label" [for]="field.name">{{ field.label }}</label>
-              <input [formControlName]="field.name" [id]="field.name" [type]="field.type"
-                [attr.autocomplete]="field.autocomplete || null" [attr.placeholder]="field.placeholder || null" />
+              <ptr-input [label]="field.label" [formControlName]="field.name" [type]="field.type" [placeholder]="field.placeholder"
+                [autocomplete]="field.autocomplete" />
               }
             }
 
