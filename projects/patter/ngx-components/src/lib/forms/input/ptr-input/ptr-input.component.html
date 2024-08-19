@@ -3,7 +3,7 @@
 
   <input #input [id]="inputId" [type]="type" [attr.autocomplete]="autocomplete || null"
     [attr.placeholder]="placeholder || null" [ngModel]="inputValue()" (ngModelChange)="onInputChange($event)"
-    (blur)="onBlur()" />
+    (focus)="onFocus()" (blur)="onBlur()" />
 
   <ptr-dialog-list #dialogList [options]="searchResultOptions()" (selectionChange)="onOptionSelected($event)"
     [dialogTitle]="dialogHelpText" />

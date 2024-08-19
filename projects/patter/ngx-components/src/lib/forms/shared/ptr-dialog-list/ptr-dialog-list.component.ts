@@ -26,7 +26,7 @@ export class PtrDialogListComponent {
   }
   @Input() showSearch = false;
   @Input() searchPlaceholder = 'Search...';
-  @Input() dialogTitle = '';
+  @Input() dialogTitle? = '';
 
   @Output() selectionChange = new EventEmitter<string | null>();
   @Output() dialogClosed = new EventEmitter<void>();

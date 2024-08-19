@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, HostListener, Input, OnInit, signal, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { PtrDialogListComponent } from '../../shared/ptr-dialog-list/ptr-dialog-list.component';
 import { debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap } from 'rxjs';
@@ -30,7 +30,7 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
   @Input() label = '';
   @Input() placeholder? = '';
   @Input() autocomplete? = '';
-  @Input() dialogHelpText = 'Here are some suggestions based on previous entries';
+  @Input() dialogHelpText? = '';
   @Input() searchFn?: (term: string) => Observable<string[]>;
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
@@ -39,13 +39,20 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
   private componentId = Math.random().toString(36).substring(2);
   private minChars = 3;
   private searchTerms = new Subject<string>();
-  private isSelecting = false;
+  private hasSelectedOption = false;
 
   inputId = `${this.componentId}-input`;
   inputValue = signal('');
   searchResultOptions = signal<string[]>([]);
   onChange: (value: string) => void = () => { };
   onTouched: () => void = () => { };
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.dialogList.dialog.nativeElement.contains(event.target as Node) && this.dialogList.isOpen()) {
+      this.dialogList.closeDialog();
+    }
+  }
 
   ngOnInit(): void {
     this.setupSearch();
@@ -69,19 +76,25 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
   onInputChange(value: string) {
     this.inputValue.set(value);
     this.onChange(value);
-    if (!this.isSelecting && this.searchFn && value.length >= this.minChars) {
+    if (!this.hasSelectedOption && this.searchFn && value.length >= this.minChars) {
       this.searchTerms.next(value);
     }
-    this.isSelecting = false;
+    this.hasSelectedOption = false;
   }
 
   onOptionSelected(optionValue: string | null) {
-    this.isSelecting = true;
+    this.hasSelectedOption = true;
 
     this.inputValue.set(optionValue ?? '');
     this.onChange(optionValue ?? '');
     if (this.dialogList) {
       this.dialogList.closeDialog();
+    }
+  }
+
+  onFocus() {
+    if (this.searchResultOptions().length > 0 && this.dialogList && !this.hasSelectedOption) {
+      this.dialogList.openDialog();
     }
   }
 
