@@ -1,40 +1,12 @@
-<!-- eslint-disable @angular-eslint/template/role-has-required-aria -->
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<label class="gfield_label gform-field-label" [attr.for]="inputId">{{ label }}</label>
 <div class="select-container">
-  <button #selectButton type="button" class="select-button" [attr.aria-haspopup]="'listbox'"
+
+  <button #selectButton type="button" class="select-button" [attr.id]="inputId" [attr.aria-haspopup]="'listbox'"
     [attr.aria-expanded]="isOpen()" [attr.aria-labelledby]="labelId" (click)="toggleDialog()">
     <span [attr.id]="labelId">@if (displayValue(); as dValue) { {{dValue}} } @else { {{placeholder}} }</span>
   </button>
-  <dialog #selectDialog (keydown)="onDialogKeyDown($event)" [attr.aria-label]="'Options'" class="select-dialog">
-    <div role="combobox" [attr.aria-expanded]="isOpen()" [attr.aria-owns]="listId">
-      <input #searchInput [ngModel]="searchTerm()" (ngModelChange)="updateSearchTerm($event)"
-        (keydown)="onInputKeyDown($event)" [attr.aria-autocomplete]="'list'" [attr.aria-controls]="listId"
-        placeholder="Search..." class="search-input">
-    </div>
-    <ul [attr.id]="listId" role="listbox" class="option-list">
-      @for (item of filteredOptions(); track item) {
-      @if (item.type === 'option') {
-      <li role="option" [attr.id]="item.value" [attr.aria-selected]="item.value === value()"
-        [class.selected]="item.value === value()" [class.highlighted]="item === filteredOptions()[highlightedIndex()]"
-        (click)="selectOption(item.value!)" (keydown)="onOptionKeyDown($event, item.value!)"
-        [attr.tabindex]="item === filteredOptions()[highlightedIndex()] ? 0 : -1">
-        {{ item.label }}
-      </li>
-      } @else {
-      <li role="group" [attr.aria-label]="item.label">
-        {{ item.label }}
-      </li>
-      @for (option of item.options!; track option) {
-      <li role="option" [attr.id]="option.value" [attr.aria-selected]="option.value === value()"
-        [class.selected]="option.value === value()"
-        [class.highlighted]="option === filteredOptions()[highlightedIndex()]" (click)="selectOption(option.value!)"
-        (keydown)="onOptionKeyDown($event, option.value!)"
-        [attr.tabindex]="option === filteredOptions()[highlightedIndex()] ? 0 : -1">
-        {{ option.label }}
-      </li>
-      }
-      }
-      }
-    </ul>
-  </dialog>
+
+  <ptr-dialog-list #dialogList [options]="options" (selectionChange)="onOptionSelected($event)"
+    [showSearch]="showSearch" />
+
 </div>
