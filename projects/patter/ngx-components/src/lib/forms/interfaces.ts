@@ -17,6 +17,7 @@ export interface PtrFormField {
   type: 'text' | 'textarea' | 'number' | 'email' | 'password' | 'search' | 'select' | 'date' | 'hidden';
   name: string;
   label: string;
+  description?: string;
   value?: unknown;
   size?: 'full' | 'half' | 'third';
   placeholder?: string;

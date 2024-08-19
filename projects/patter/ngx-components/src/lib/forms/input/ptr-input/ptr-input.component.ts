@@ -30,6 +30,7 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
   @Input() label = '';
   @Input() placeholder? = '';
   @Input() autocomplete? = '';
+  @Input() description? = '';
   @Input() dialogHelpText? = '';
   @Input() searchFn?: (term: string) => Observable<string[]>;
 
@@ -67,7 +68,9 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
       ).subscribe(results => {
         this.searchResultOptions.set(results);
         if (results.length > 0 && this.dialogList) {
-          this.dialogList.openDialog();
+          this.dialogList.openDialogSilent();
+        } else {
+          this.dialogList.closeDialog();
         }
       });
     }
@@ -94,7 +97,7 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
 
   onFocus() {
     if (this.searchResultOptions().length > 0 && this.dialogList && !this.hasSelectedOption) {
-      this.dialogList.openDialog();
+      this.dialogList.openDialogSilent();
     }
   }
 

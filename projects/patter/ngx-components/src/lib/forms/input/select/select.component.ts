@@ -29,13 +29,13 @@ export class PtrSelectComponent {
   @Input() showSearch = true;
   @Input() placeholder? = 'Select an option';
   @Input() label? = '';
+  @Input() description? = '';
   @Output() selectionChange = new EventEmitter<string | null>();
 
   @ViewChild('selectButton') selectButton!: ElementRef<HTMLButtonElement>;
   @ViewChild('dialogList') dialogList!: PtrDialogListComponent;
 
   value = signal<string | null>(null);
-  isOpen = signal(false);
 
   displayValue = computed(() => {
     const currentValue = this.value();
@@ -56,19 +56,17 @@ export class PtrSelectComponent {
   onDocumentClick(event: MouseEvent) {
     if (!this.dialogList.dialog.nativeElement.contains(event.target as Node) &&
       !(event.target as HTMLElement).closest('.select-button') &&
-      this.isOpen()) {
+      this.dialogList.isOpen()) {
       this.dialogList.closeDialog();
-      this.isOpen.set(false);
     }
   }
 
   toggleDialog() {
-    if (this.isOpen()) {
+    if (this.dialogList.isOpen()) {
       this.dialogList.closeDialog();
     } else {
       this.dialogList.openDialog();
     }
-    this.isOpen.update(v => !v);
   }
 
   onOptionSelected(optionValue: string | null) {
@@ -76,7 +74,6 @@ export class PtrSelectComponent {
     this.onChange(optionValue);
     this.onTouched();
     this.selectionChange.emit(optionValue);
-    this.isOpen.set(false);
   }
 
   writeValue(value: string): void {

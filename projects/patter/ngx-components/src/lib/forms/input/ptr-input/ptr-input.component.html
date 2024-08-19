@@ -1,5 +1,8 @@
 <label class="gfield_label gform-field-label" [attr.for]="inputId">{{ label }}</label>
-<div class="gfield--input-wrapper">
+@if(description){
+  <div class="gfield_description">{{description}}</div>
+}
+<div class="gfield--input-wrapper ginput_container">
 
   <input #input [id]="inputId" [type]="type" [attr.autocomplete]="autocomplete || null"
     [attr.placeholder]="placeholder || null" [ngModel]="inputValue()" (ngModelChange)="onInputChange($event)"

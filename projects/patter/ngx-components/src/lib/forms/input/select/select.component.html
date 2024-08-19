@@ -1,8 +1,11 @@
 <label class="gfield_label gform-field-label" [attr.for]="inputId">{{ label }}</label>
-<div class="select-container">
+@if(description){
+  <div class="gfield_description">{{description}}</div>
+}
+<div class="gfield--input-wrapper ginput_container">
 
   <button #selectButton type="button" class="select-button" [attr.id]="inputId" [attr.aria-haspopup]="'listbox'"
-    [attr.aria-expanded]="isOpen()" [attr.aria-labelledby]="labelId" (click)="toggleDialog()">
+    [attr.aria-expanded]="dialogList.isOpen()" [attr.aria-labelledby]="labelId" (click)="toggleDialog()">
     <span [attr.id]="labelId">@if (displayValue(); as dValue) { {{dValue}} } @else { {{placeholder}} }</span>
   </button>
 

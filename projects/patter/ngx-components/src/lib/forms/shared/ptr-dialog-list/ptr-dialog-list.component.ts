@@ -58,6 +58,13 @@ export class PtrDialogListComponent {
 
   openDialog() {
     this.dialog.nativeElement.show();
+    this.adjustDialogPosition();
+    this.isOpen.set(true);
+  }
+
+  openDialogSilent() {
+    this.dialog.nativeElement.setAttribute('open', 'true');
+    this.adjustDialogPosition();
     this.isOpen.set(true);
   }
 
@@ -67,6 +74,7 @@ export class PtrDialogListComponent {
     this.searchTerm.set('');
     this.highlightedIndex.set(-1);
     this.dialogClosed.emit();
+    this.resetDialogPosition();
   }
 
   updateSearchTerm(term: string) {
@@ -174,6 +182,23 @@ export class PtrDialogListComponent {
         };
       }
     });
+  }
+
+  adjustDialogPosition() {
+    const dialogRect = this.dialog.nativeElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const spaceBelow = viewportHeight - dialogRect.bottom;
+
+    if (spaceBelow > 0) {
+      this.dialog.nativeElement.style.top = '100%';
+    } else {
+      this.dialog.nativeElement.style.bottom = '100%';
+    }
+  }
+
+  resetDialogPosition() {
+    this.dialog.nativeElement.style.top = '';
+    this.dialog.nativeElement.style.bottom = '';
   }
 
 }
