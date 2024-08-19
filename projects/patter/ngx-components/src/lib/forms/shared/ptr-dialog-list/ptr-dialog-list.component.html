@@ -1,5 +1,9 @@
 <dialog #dialog class="ptr-dialog-list" (keydown)="onDialogKeyDown($event)" [attr.aria-label]="'Options'">
 
+  @if(dialogTitle) {
+  <p class="dialog-title">{{dialogTitle}}</p>
+  }
+
   @if (showSearch) {
   <div>
     <input #searchInput [ngModel]="searchTerm()" (ngModelChange)="updateSearchTerm($event)"

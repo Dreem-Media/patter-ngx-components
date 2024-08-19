@@ -26,6 +26,7 @@ export class PtrDialogListComponent {
   }
   @Input() showSearch = false;
   @Input() searchPlaceholder = 'Search...';
+  @Input() dialogTitle = '';
 
   @Output() selectionChange = new EventEmitter<string | null>();
   @Output() dialogClosed = new EventEmitter<void>();
@@ -78,6 +79,15 @@ export class PtrDialogListComponent {
     if (event.key === 'Escape') {
       this.closeDialog();
       event.preventDefault();
+    }
+
+    // When there is no search input and there are options, move input into the first option
+    if (!this.showSearch && this.filteredOptions().length > 0 && this.highlightedIndex() === -1) {
+      if (event.key === 'Tab' || event.key === 'ArrowDown') {
+        this.highlightedIndex.update(i => Math.min(i + 1, this.getTotalOptionsCount() - 1));
+        this.focusOption();
+        event.preventDefault();
+      }
     }
   }
 

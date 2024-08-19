@@ -10,6 +10,10 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   scrollbar-width: thin;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 input.search-input {
@@ -19,6 +23,15 @@ input.search-input {
   outline: 0;
   font-size: var(--wp--preset--font-size--small, inherit);
   border-radius: 0 !important;
+}
+
+.dialog-title {
+  padding: 5px 10px;
+  border: none !important;
+  border-bottom: 1px solid var(--wp--custom--color--border) !important;
+  font-size: var(--wp--preset--font-size--small, inherit);
+  font-weight: 500;
+  margin: 0;
 }
 
 .option-list {

@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, OnInit, signal, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { PtrDialogListComponent } from '../../shared/ptr-dialog-list/ptr-dialog-list.component';
-import { Observable, Subject } from 'rxjs';
-import { PtrOption } from '../../interfaces';
+import { debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'ptr-input',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     PtrDialogListComponent
@@ -23,38 +24,64 @@ import { PtrOption } from '../../interfaces';
     }
   ]
 })
-export class PtrInputComponent implements ControlValueAccessor {
+export class PtrInputComponent implements ControlValueAccessor, OnInit {
 
   @Input() type: 'text' | 'number' | 'email' | 'password' | 'search' | 'hidden' | 'date' = 'text';
   @Input() label = '';
   @Input() placeholder? = '';
   @Input() autocomplete? = '';
-  @Input() searchFn?: (term: string) => Observable<string[] | PtrOption[]>;
+  @Input() dialogHelpText = 'Here are some suggestions based on previous entries';
+  @Input() searchFn?: (term: string) => Observable<string[]>;
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
+  @ViewChild('dialogList') dialogList!: PtrDialogListComponent;
 
   private componentId = Math.random().toString(36).substring(2);
-  inputId = `${this.componentId}-input`;
-
-  inputValue = signal('');
-  private minChars = 2;
-
+  private minChars = 3;
   private searchTerms = new Subject<string>();
+  private isSelecting = false;
 
+  inputId = `${this.componentId}-input`;
+  inputValue = signal('');
+  searchResultOptions = signal<string[]>([]);
   onChange: (value: string) => void = () => { };
   onTouched: () => void = () => { };
+
+  ngOnInit(): void {
+    this.setupSearch();
+  }
+
+  private setupSearch() {
+    if (this.searchFn) {
+      this.searchTerms.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(term => term.length >= this.minChars ? this.searchFn!(term) : of([]))
+      ).subscribe(results => {
+        this.searchResultOptions.set(results);
+        if (results.length > 0 && this.dialogList) {
+          this.dialogList.openDialog();
+        }
+      });
+    }
+  }
 
   onInputChange(value: string) {
     this.inputValue.set(value);
     this.onChange(value);
-    if (this.searchFn && value.length >= this.minChars) {
+    if (!this.isSelecting && this.searchFn && value.length >= this.minChars) {
       this.searchTerms.next(value);
     }
+    this.isSelecting = false;
   }
 
-  onFocus() {
-    if (this.searchFn && this.inputValue().length >= this.minChars) {
-      this.searchTerms.next(this.inputValue());
+  onOptionSelected(optionValue: string | null) {
+    this.isSelecting = true;
+
+    this.inputValue.set(optionValue ?? '');
+    this.onChange(optionValue ?? '');
+    if (this.dialogList) {
+      this.dialogList.closeDialog();
     }
   }
 
@@ -75,7 +102,7 @@ export class PtrInputComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    if(this.input?.nativeElement) {
+    if (this.input?.nativeElement) {
       this.input.nativeElement.disabled = isDisabled;
     }
   }
