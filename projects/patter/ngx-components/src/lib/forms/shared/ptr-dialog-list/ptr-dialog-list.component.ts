@@ -188,7 +188,6 @@ export class PtrDialogListComponent {
     const dialogRect = this.dialog.nativeElement.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
     const spaceBelow = viewportHeight - dialogRect.bottom;
-
     if (spaceBelow > 0) {
       this.dialog.nativeElement.style.top = '100%';
     } else {
