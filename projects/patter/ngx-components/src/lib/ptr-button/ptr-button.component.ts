@@ -74,6 +74,8 @@ export class PtrButtonComponent {
     }
   }
 
+  @Input() ariaLabel? = '';
+
   @Output() clicked = new EventEmitter<Event>();
 
   isLink = computed(() => !!this.href() || !!this.routerLink());

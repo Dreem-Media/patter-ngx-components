@@ -4,11 +4,12 @@
 
 @if (isLink()) {
 <a [attr.href]="href()" [routerLink]="routerLink()" [class]="buttonClasses()" [attr.disabled]="disabled() ? '' : null"
-  (click)="onClick($event)">
+  (click)="onClick($event)" [attr.aria-label]="ariaLabel ?? null">
   <ng-container [ngTemplateOutlet]="contentTpl"></ng-container>
 </a>
 } @else {
-<button [type]="type()" [class]="buttonClasses()" [disabled]="disabled()" (click)="onClick($event)">
+<button [type]="type()" [class]="buttonClasses()" [disabled]="disabled()" (click)="onClick($event)"
+  [attr.aria-label]="ariaLabel ?? null">
   <ng-container [ngTemplateOutlet]="contentTpl"></ng-container>
 </button>
 }
