@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, TitleStrategy } from '@angular/router';
-import { filter, map, Observable } from 'rxjs';
+import { filter, map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'ptr-title',
   standalone: true,
   imports: [CommonModule],
-  template: '@if ((hideTitle$|async) === false) {<header class="entry-header is-layout-constrained my-3"><h1 class="entry-title">{{ displayTitle$ | async }}</h1></header>}',
+  templateUrl: './ptr-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrTitleComponent implements OnInit {
+
+  @Input() styleClass = 'entry-title';
+  @Input() wrapperStyleClass = '';
 
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
@@ -22,6 +25,7 @@ export class PtrTitleComponent implements OnInit {
   ngOnInit() {
     const routeEvents$ = this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      startWith(null),
       map(() => this.getRoute(this.activatedRoute))
     );
 
@@ -53,17 +57,6 @@ export class PtrTitleComponent implements OnInit {
       route = route.firstChild;
     }
     return route;
-  }
-
-  private removeCommonSuffix(title: string): string {
-    const separators = [' | ', ' - '];
-    for (const separator of separators) {
-      const parts = title.split(separator);
-      if (parts.length > 1) {
-        return parts[0].trim();
-      }
-    }
-    return title.trim();
   }
 
 }

@@ -1,0 +1,9 @@
+@if ((hideTitle$|async) === false) {
+  @if(wrapperStyleClass) {
+    <header [class]="wrapperStyleClass">
+      <h1 [class]="styleClass">{{displayTitle$|async}}</h1>
+    </header>
+  } @else {
+    <h1 [class]="styleClass">{{displayTitle$|async}}</h1>
+  }
+}
