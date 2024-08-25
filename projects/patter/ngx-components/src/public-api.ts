@@ -24,3 +24,6 @@ export { PtrTooltipComponent } from './lib/dialog/ptr-tooltip/ptr-tooltip.compon
 
 export { PtrBreadcrumbsComponent } from './lib/ptr-breadcrumbs/ptr-breadcrumbs.component';
 export { PtrBreadcrumb } from './lib/ptr-breadcrumbs/interfaces';
+
+export { PtrTabsComponent } from './lib/components/tabs/ptr-tabs/ptr-tabs.component';
+export { PtrTabComponent } from './lib/components/tabs/ptr-tab/ptr-tab.component';

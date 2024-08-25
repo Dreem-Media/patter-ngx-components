@@ -1,0 +1,14 @@
+<div class="tabs-container" role="tablist">
+  @for (tab of tabs(); track $index; let i = $index) {
+  <button #tabButton [attr.role]="tab.link ? 'link' : 'tab'" [attr.aria-selected]="tab.active()"
+    [class.active]="tab.active()" (click)="selectTab(i)" [routerLink]="tab.link">{{tab.label}}</button>
+  }
+
+  <div class="slider" [style.transform]="sliderPosition().transform" [style.width]="sliderPosition().width"></div>
+</div>
+
+@if (!useLinks()) {
+<div class="tab-content">
+  <ng-content></ng-content>
+</div>
+}

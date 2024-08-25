@@ -51,8 +51,10 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-    if (!this.dialogList.dialog.nativeElement.contains(event.target as Node) && this.dialogList.isOpen()) {
-      this.dialogList.closeDialog();
+    if (this.searchFn) {
+      if (!this.dialogList?.dialog.nativeElement.contains(event.target as Node) && this.dialogList?.isOpen()) {
+        this.dialogList.closeDialog();
+      }
     }
   }
 

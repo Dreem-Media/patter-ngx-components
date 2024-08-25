@@ -1,11 +1,17 @@
 <dialog #dialogElement class="ptr-modal" (close)="onClose()">
   <div class="ptr-modal__content">
-    <button class="ptr-modal__close" (click)="close()" aria-label="Close dialog">
-      &times;
-    </button>
+
+    <div class="ptr-modal__header">
+      <h2 class="ptr-modal__title">{{title}}</h2>
+      <button class="ptr-modal__close" (click)="close()" aria-label="Close dialog">&times;</button>
+    </div>
+
     <p>{{ message }}</p>
     <div class="ptr-modal__actions">
-      <ptr-button [buttonStyle]="buttonStyle" (clicked)="confirm()" [isSmallSize]="true">{{buttonText}}</ptr-button>
+      <ptr-button buttonStyle="secondary" (clicked)="close()" [isSmallSize]="true">Cancel</ptr-button>
+      <ptr-button class="ml-auto" [buttonStyle]="buttonStyle" (clicked)="confirm()"
+        [isSmallSize]="true">{{buttonText}}</ptr-button>
     </div>
+
   </div>
 </dialog>

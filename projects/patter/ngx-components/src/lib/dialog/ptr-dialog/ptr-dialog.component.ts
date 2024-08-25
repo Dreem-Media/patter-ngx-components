@@ -15,6 +15,7 @@ export class PtrDialogComponent implements AfterViewInit {
 
   @ViewChild('dialogElement') dialogElement!: ElementRef<HTMLDialogElement>;
 
+  @Input() title = '';
   @Input() message = '';
   @Input() buttonText = 'Confirm';
   @Input() buttonStyle: 'normal' | 'error' | 'secondary' = 'normal';

@@ -1,0 +1,33 @@
+.tabs-container {
+  display: flex;
+  position: relative;
+}
+
+button {
+  display: inline-flex;
+  max-width: 360px;
+  appearance: none;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: var(--wp--preset--font-size--small, inherit);
+
+  &:hover,
+  &:focus {
+    background-color: var(----wp--preset--color--light, #3336460a);
+  }
+}
+
+.slider {
+  position: absolute;
+  bottom: -2px;
+  height: 2px;
+  background-color: var(--wp--preset--color--secondary, #0073aa);
+  transition: transform 0.3s ease;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
