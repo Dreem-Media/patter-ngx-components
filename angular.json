@@ -7,7 +7,7 @@
       "projectType": "library",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "none",
+          "style": "scss",
           "changeDetection": "OnPush"
         }
       },

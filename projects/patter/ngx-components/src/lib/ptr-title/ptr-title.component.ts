@@ -14,6 +14,7 @@ export class PtrTitleComponent implements OnInit {
 
   @Input() styleClass = 'entry-title';
   @Input() wrapperStyleClass = '';
+  @Input() screenReaderOnly = false;
 
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);

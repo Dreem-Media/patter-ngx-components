@@ -1,9 +1,9 @@
 @if ((hideTitle$|async) === false) {
   @if(wrapperStyleClass) {
-    <header [class]="wrapperStyleClass">
+    <header [class]="wrapperStyleClass" [class.screen-reader-text]="screenReaderOnly">
       <h1 [class]="styleClass">{{displayTitle$|async}}</h1>
     </header>
   } @else {
-    <h1 [class]="styleClass">{{displayTitle$|async}}</h1>
+    <h1 [class]="styleClass" [class.screen-reader-text]="screenReaderOnly">{{displayTitle$|async}}</h1>
   }
 }
