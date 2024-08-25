@@ -88,10 +88,10 @@ export class PtrFormComponent implements OnInit {
     return conditionalLabel as string || field.label;
   }
 
-  getFieldPlaceholder(field: PtrFormField): string {
-    if (!field.conditional?.placeholder) return field.placeholder || '';
+  getFieldPlaceholder(field: PtrFormField): string | null {
+    if (!field.conditional?.placeholder) return field.placeholder || null;
     const conditionalPlaceholder = this.evaluateConditionalRules(field.conditional.placeholder);
-    return conditionalPlaceholder as string || field.placeholder || '';
+    return conditionalPlaceholder as string || field.placeholder || null;
   }
 
   private evaluateConditionalRules(rules: PtrConditionalRule[]): string | boolean {

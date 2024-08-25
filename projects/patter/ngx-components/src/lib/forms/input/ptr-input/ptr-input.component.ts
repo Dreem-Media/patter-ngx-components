@@ -28,11 +28,12 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
 
   @Input() type: 'text' | 'number' | 'email' | 'password' | 'search' | 'hidden' | 'date' = 'text';
   @Input() label = '';
-  @Input() placeholder? = '';
+  @Input() placeholder?: string | null = '';
   @Input() autocomplete? = '';
   @Input() description? = '';
   @Input() dialogHelpText? = '';
   @Input() searchFn?: (term: string) => Observable<string[]>;
+  @Input() labelPosition?: 'top' | 'inline' = 'top';
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   @ViewChild('dialogList') dialogList!: PtrDialogListComponent;

@@ -27,9 +27,11 @@ export class PtrSelectComponent {
 
   @Input() options: (PtrOption | PtrOptionGroup | string)[] | undefined;
   @Input() showSearch = true;
-  @Input() placeholder? = 'Select an option';
+  @Input() placeholder?: string | null = 'Select an option';
   @Input() label? = '';
   @Input() description? = '';
+  @Input() labelPosition?: 'top' | 'inline' = 'top';
+
   @Output() selectionChange = new EventEmitter<string | null>();
 
   @ViewChild('selectButton') selectButton!: ElementRef<HTMLButtonElement>;
@@ -43,6 +45,10 @@ export class PtrSelectComponent {
     const allOptions = this.flattenOptions(this.options);
     const selectedOption = allOptions?.find(option => option.value === currentValue);
     return selectedOption ? selectedOption.label : null;
+  });
+
+  effectivePlaceholder = computed(() => {
+    return this.placeholder ?? 'Select an option';
   });
 
   private componentId = Math.random().toString(36).substring(2);

@@ -25,3 +25,11 @@
   }
 
 }
+
+// Inline styles
+.gfield--input-wrapper--label-inline {
+  .select-button {
+    border-color: transparent;
+    outline: 0;
+  }
+}

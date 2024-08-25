@@ -34,12 +34,12 @@
             }
             @case ('select') {
               <ptr-select [label]="getFieldLabel(field)" [formControlName]="field.name" [options]="field.options"
-                [placeholder]="getFieldPlaceholder(field)"></ptr-select>
+                [placeholder]="getFieldPlaceholder(field)" [labelPosition]="config.labelPosition" />
             }
             @default {
             <ptr-input [label]="getFieldLabel(field)" [formControlName]="field.name" [type]="field.type"
               [placeholder]="getFieldPlaceholder(field)" [autocomplete]="field.autocomplete" [searchFn]="field.searchFn"
-              [dialogHelpText]="field.dialogHelpText" />
+              [dialogHelpText]="field.dialogHelpText" [labelPosition]="config.labelPosition" />
             }
           }
 

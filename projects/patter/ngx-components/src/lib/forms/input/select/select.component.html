@@ -1,13 +1,23 @@
-<label class="gfield_label gform-field-label" [attr.for]="inputId">{{ label }}</label>
+<label class="gfield_label gform-field-label" [attr.for]="inputId"
+  [class.gfield--input-wrapper--label-inline]="labelPosition === 'inline'">{{ label }}</label>
 @if(description){
-  <div class="gfield_description">{{description}}</div>
+<div class="gfield_description">{{description}}</div>
 }
-<div class="gfield--input-wrapper ginput_container">
+<div class="gfield--input-wrapper ginput_container"
+  [class.gfield--input-wrapper--label-inline]="labelPosition === 'inline'">
 
   <button #selectButton type="button" class="select-button" [attr.id]="inputId" [attr.aria-haspopup]="'listbox'"
     [attr.aria-expanded]="dialogList.isOpen()" [attr.aria-labelledby]="labelId" (click)="toggleDialog()">
-    <span [attr.id]="labelId">@if (displayValue(); as dValue) { {{dValue}} } @else { {{placeholder}} }</span>
+    <span [attr.id]="labelId">@if (displayValue(); as dValue) { {{dValue}} } @else { {{effectivePlaceholder()}} }</span>
   </button>
+
+  @if (labelPosition === 'inline') {
+  <fieldset aria-hidden="true" class="input-fieldset">
+    <legend class="input-legend gfield_label gform-field-label gform-field-label--hidden">
+      <span>{{label}}</span>
+    </legend>
+  </fieldset>
+  }
 
   <ptr-dialog-list #dialogList [options]="options" (selectionChange)="onOptionSelected($event)"
     [showSearch]="showSearch" />
