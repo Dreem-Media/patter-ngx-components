@@ -41,9 +41,12 @@ export class PtrBreadcrumbsComponent {
         routeUrl += `/${routeURL}`;
       }
       const { label, url } = this.getLabelForRoute(child);
-      if (label) {
+
+      // Skip if the label is undefined or empty and the path is empty
+      if (label && (!breadcrumbs.length || breadcrumbs[breadcrumbs.length - 1].label !== label)) {
         breadcrumbs.push({ label, url: url ?? routeUrl });
       }
+
       return this.createBreadcrumbs(child, routeUrl, breadcrumbs);
     }
     return breadcrumbs;
