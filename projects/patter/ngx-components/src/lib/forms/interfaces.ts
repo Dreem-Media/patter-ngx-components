@@ -56,5 +56,6 @@ export interface PtrFormConfig {
   formClass?: string;
   formValidators?: ValidatorFn[];
   submitText?: string;
+  submitFullWidth?: boolean;
   labelPosition?: 'top' | 'inline';
 }

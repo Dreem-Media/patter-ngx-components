@@ -79,7 +79,8 @@
 
     @if(config.submitText){
       <div class="gform_footer">
-        <ptr-button buttonType="submit" [isDisabled]="loading || !formGroup.valid">{{config.submitText}}</ptr-button>
+        <ptr-button buttonType="submit" [isDisabled]="loading || !formGroup.valid"
+          [extraClasses]="config.submitFullWidth ? 'gform-button--width-full' : ''">{{config.submitText}}</ptr-button>
       </div>
     }
 
