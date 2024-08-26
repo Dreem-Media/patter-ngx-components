@@ -15,6 +15,7 @@ export class PtrDialogService {
   ) { }
 
   open(options: {
+    title: string;
     message: string;
     buttonText?: string;
     buttonStyle?: 'normal' | 'error' | 'secondary';
@@ -27,6 +28,7 @@ export class PtrDialogService {
 
     const { instance } = this.dialogComponentRef;
 
+    instance.title = options.title;
     instance.message = options.message;
     instance.buttonText = options.buttonText || 'Confirm';
     instance.buttonStyle = options.buttonStyle || 'normal';
