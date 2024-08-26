@@ -1,0 +1,8 @@
+<div class="toaster-container" aria-live="polite" aria-atomic="true">
+  @for (toast of toasterService.getToasts()(); track toast.id) {
+  <div class="toast" [ngClass]="toast.type" role="alert">
+    <span>{{toast.message}}</span>
+    <button (click)="toasterService.remove(toast.id)" aria-label="Close"><span>&times;</span></button>
+  </div>
+  }
+</div>

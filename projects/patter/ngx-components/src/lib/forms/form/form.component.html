@@ -20,7 +20,7 @@
         @if(isFieldVisible(field)) {
 
         <div class="gfield gfield--width-{{field.size}}" [class.gform_hidden]="field.type === 'hidden'"
-          [class.gfield_error]="formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched">
+          [class.gfield_error]="formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched" [class.gfield--label-inline]="config.labelPosition === 'inline'">
 
           @switch (field.type) {
             @case ('textarea') {

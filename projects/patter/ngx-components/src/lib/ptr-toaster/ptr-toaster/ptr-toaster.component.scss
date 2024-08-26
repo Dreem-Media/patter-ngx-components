@@ -1,0 +1,42 @@
+.toaster-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.toast {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: calc(var(--wp--custom--default-border-radius) / 2);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.success {
+  background-color: var(--wp--preset--color--primary, #28a745);
+}
+
+.error {
+  background-color: var(--wp--custom--color--error, #dc3545);
+}
+
+.info {
+  background-color: var(--wp--preset--color--secondary, #17a2b8);
+}
+
+.warning {
+  background-color: var(--wp--preset--color--secondary, #ffc107);
+}
+
+button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 2em;
+  cursor: pointer;
+  font-family: monospace;
+}

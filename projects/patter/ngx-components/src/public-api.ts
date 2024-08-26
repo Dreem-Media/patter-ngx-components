@@ -27,3 +27,7 @@ export { PtrBreadcrumb } from './lib/ptr-breadcrumbs/interfaces';
 
 export { PtrTabsComponent } from './lib/components/tabs/ptr-tabs/ptr-tabs.component';
 export { PtrTabComponent } from './lib/components/tabs/ptr-tab/ptr-tab.component';
+
+export { PtrToasterService } from './lib/ptr-toaster/ptr-toaster.service';
+export { PtrToasterComponent } from './lib/ptr-toaster/ptr-toaster/ptr-toaster.component';
+export { PtrToast } from './lib/ptr-toaster/interfaces';
