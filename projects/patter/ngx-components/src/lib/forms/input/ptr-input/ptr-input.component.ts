@@ -26,7 +26,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PtrInputComponent implements ControlValueAccessor, OnInit {
 
-  @Input() type: 'text' | 'number' | 'email' | 'password' | 'search' | 'hidden' | 'date' = 'text';
+  @Input() type: 'text' | 'number' | 'email' | 'password' | 'search' | 'hidden' | 'date' | 'textarea' = 'text';
   @Input() label = '';
   @Input() placeholder?: string | null = '';
   @Input() autocomplete? = '';

@@ -23,15 +23,6 @@
           [class.gfield_error]="formGroup.get(field.name)?.invalid && formGroup.get(field.name)?.touched" [class.gfield--label-inline]="config.labelPosition === 'inline'">
 
           @switch (field.type) {
-            @case ('textarea') {
-              <label class="gfield_label gform-field-label" [for]="field.name">{{ getFieldLabel(field) }}</label>
-              @if(field.description){
-                <div class="gfield_description">{{field.description}}</div>
-              }
-              <div class="gfield--input-wrapper ginput_container">
-                <textarea [id]="field.name" [formControlName]="field.name" [attr.placeholder]="getFieldPlaceholder(field)"></textarea>
-              </div>
-            }
             @case ('select') {
               <ptr-select [label]="getFieldLabel(field)" [formControlName]="field.name" [options]="field.options"
                 [placeholder]="getFieldPlaceholder(field)" [labelPosition]="config.labelPosition" />

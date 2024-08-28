@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'ptr-loading-spinner',
   standalone: true,
   imports: [],
-  template: `<div class="vdx-progress-spinner"></div>`,
+  template: `<div class="ptr-progress-spinner"></div>`,
   styleUrls: ["./loading-spinner.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -6,9 +6,17 @@
 <div class="gfield--input-wrapper ginput_container"
   [class.gfield--input-wrapper--label-inline]="labelPosition === 'inline'">
 
+  @switch (type) {
+  @case ('textarea') {
+  <textarea #input [id]="inputId" [attr.autocomplete]="autocomplete || null" [attr.placeholder]="placeholder || null"
+    [ngModel]="inputValue()" (ngModelChange)="onInputChange($event)" (focus)="onFocus()" (blur)="onBlur()" [rows]="3"></textarea>
+  }
+  @default {
   <input #input [id]="inputId" [type]="type" [attr.autocomplete]="autocomplete || null"
     [attr.placeholder]="placeholder || null" [ngModel]="inputValue()" (ngModelChange)="onInputChange($event)"
     (focus)="onFocus()" (blur)="onBlur()" />
+  }
+  }
 
   @if (labelPosition === 'inline') {
     <fieldset aria-hidden="true" class="input-fieldset">

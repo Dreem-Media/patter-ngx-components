@@ -14,13 +14,15 @@ import { computed, Injectable, signal, Signal } from '@angular/core';
  * Usage:
  * Set loading: this.loadingService.setLoading(true)
  * - Set loading: this.loadingService.setLoading(true, 'areaName')
- * 
+ *
  * - Get loading (template): {{ loadingService.isLoading()() }}
  * - Get loading (template): {{ loadingService.isLoading('areaName')() }}
- * 
+ *
  * - Get loading (component): this.loadingService.isLoading()()
  * - Get loading (component): this.loadingService.isLoading('areaName')()
- * 
+ *
+ * - Check if any loading: {{ loadingService.isAnyLoading()() }}
+ *
  * - React to loading changes: effect(() => console.log('Loading:', this.loadingService.isLoading('areaName')()))
  */
 @Injectable({
@@ -39,6 +41,16 @@ export class PtrLoadingService {
     return computed(() => {
       const areaSignal = this.loadingAreas.get(area);
       return areaSignal ? areaSignal() > 0 : false;
+    });
+  }
+
+  isAnyLoading(): Signal<boolean> {
+    return computed(() => {
+      if (this.globalTaskCount() > 0) return true;
+      for (const areaSignal of this.loadingAreas.values()) {
+        if (areaSignal() > 0) return true;
+      }
+      return false;
     });
   }
 

@@ -52,6 +52,7 @@ export class PtrLoadingSpinnerDirective implements OnDestroy {
     this.renderer.setStyle(this.overlay, 'left', '0');
     this.renderer.setStyle(this.overlay, 'width', '100%');
     this.renderer.setStyle(this.overlay, 'height', '100%');
+    this.renderer.setStyle(this.overlay, 'min-height', '25px');
 
     this.renderer.appendChild(this.targetEl.nativeElement, this.overlay);
   }
