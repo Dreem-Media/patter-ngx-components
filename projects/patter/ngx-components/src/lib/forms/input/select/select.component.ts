@@ -5,23 +5,22 @@ import { PtrOption, PtrOptionGroup } from '../../interfaces';
 import { PtrDialogListComponent } from '../../shared/ptr-dialog-list/ptr-dialog-list.component';
 
 @Component({
-  selector: 'ptr-select',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    PtrDialogListComponent
-  ],
-  templateUrl: './select.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./select.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PtrSelectComponent),
-      multi: true
-    }
-  ]
+    selector: 'ptr-select',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        PtrDialogListComponent
+    ],
+    templateUrl: './select.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: ['./select.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PtrSelectComponent),
+            multi: true
+        }
+    ]
 })
 export class PtrSelectComponent {
 

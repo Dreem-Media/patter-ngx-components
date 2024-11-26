@@ -8,12 +8,11 @@ export interface PtrMenuItem {
 }
 
 @Component({
-  selector: 'ptr-menu',
-  standalone: true,
-  imports: [RouterModule],
-  templateUrl: './menu.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./menu.component.scss']
+    selector: 'ptr-menu',
+    imports: [RouterModule],
+    templateUrl: './menu.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: ['./menu.component.scss']
 })
 export class PtrMenuComponent {
 

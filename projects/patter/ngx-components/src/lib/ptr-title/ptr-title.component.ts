@@ -4,11 +4,10 @@ import { ActivatedRoute, NavigationEnd, Router, TitleStrategy } from '@angular/r
 import { filter, map, Observable, startWith } from 'rxjs';
 
 @Component({
-  selector: 'ptr-title',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './ptr-title.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ptr-title',
+    imports: [CommonModule],
+    templateUrl: './ptr-title.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrTitleComponent implements OnInit {
 

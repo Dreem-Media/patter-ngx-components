@@ -6,23 +6,22 @@ import { debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap 
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'ptr-input',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    PtrDialogListComponent
-  ],
-  templateUrl: './ptr-input.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PtrInputComponent),
-      multi: true
-    }
-  ]
+    selector: 'ptr-input',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PtrDialogListComponent
+    ],
+    templateUrl: './ptr-input.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PtrInputComponent),
+            multi: true
+        }
+    ]
 })
 export class PtrInputComponent implements ControlValueAccessor, OnInit {
 

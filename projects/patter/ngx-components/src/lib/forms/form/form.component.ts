@@ -8,19 +8,16 @@ import { PtrInputComponent } from '../input/ptr-input/ptr-input.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'ptr-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-
-    PtrButtonComponent,
-
-    PtrSelectComponent,
-    PtrInputComponent
-  ],
-  templateUrl: './form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ptr-form',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        PtrButtonComponent,
+        PtrSelectComponent,
+        PtrInputComponent
+    ],
+    templateUrl: './form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrFormComponent implements OnInit {
 
