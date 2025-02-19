@@ -3,16 +3,15 @@ import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, HostListene
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { PtrDialogListComponent } from '../../shared/ptr-dialog-list/ptr-dialog-list.component';
 import { debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap } from 'rxjs';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'ptr-input',
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        PtrDialogListComponent
-    ],
+    FormsModule,
+    ReactiveFormsModule,
+    PtrDialogListComponent
+],
     templateUrl: './ptr-input.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [

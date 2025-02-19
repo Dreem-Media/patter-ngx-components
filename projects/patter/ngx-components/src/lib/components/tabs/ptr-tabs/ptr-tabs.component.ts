@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChildren, DestroyRef, effect, ElementRef, inject, QueryList, signal, ViewChildren } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { PtrTabComponent } from '../ptr-tab/ptr-tab.component';
@@ -7,7 +7,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'ptr-tabs',
-    imports: [CommonModule, RouterModule],
+    imports: [RouterModule],
     templateUrl: './ptr-tabs.component.html',
     styleUrl: './ptr-tabs.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
