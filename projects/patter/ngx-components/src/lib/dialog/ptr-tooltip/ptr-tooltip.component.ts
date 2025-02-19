@@ -2,12 +2,11 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'ptr-tooltip',
-  standalone: true,
-  imports: [],
-  templateUrl: './ptr-tooltip.component.html',
-  styleUrls: ["./ptr-tooltip.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ptr-tooltip',
+    imports: [],
+    templateUrl: './ptr-tooltip.component.html',
+    styleUrls: ["./ptr-tooltip.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrTooltipComponent {
 

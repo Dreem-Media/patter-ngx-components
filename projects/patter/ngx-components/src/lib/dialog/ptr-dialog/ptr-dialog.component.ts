@@ -2,14 +2,13 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Ou
 import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
 
 @Component({
-  selector: 'ptr-dialog',
-  standalone: true,
-  imports: [
-    PtrButtonComponent
-  ],
-  templateUrl: './ptr-dialog.component.html',
-  styleUrls: ["./ptr-dialog.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ptr-dialog',
+    imports: [
+        PtrButtonComponent
+    ],
+    templateUrl: './ptr-dialog.component.html',
+    styleUrls: ["./ptr-dialog.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrDialogComponent implements AfterViewInit {
 

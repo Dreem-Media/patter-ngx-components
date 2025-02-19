@@ -10,14 +10,13 @@ interface ProcessedOption {
 }
 
 @Component({
-  selector: 'ptr-dialog-list',
-  standalone: true,
-  imports: [
-    FormsModule
-  ],
-  templateUrl: './ptr-dialog-list.component.html',
-  styleUrls: ['./ptr-dialog-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ptr-dialog-list',
+    imports: [
+        FormsModule
+    ],
+    templateUrl: './ptr-dialog-list.component.html',
+    styleUrls: ['./ptr-dialog-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrDialogListComponent {
 

@@ -5,11 +5,10 @@ import { RouterLink } from '@angular/router';
 type ButtonStyle = 'normal' | 'error' | 'secondary' | 'icon';
 
 @Component({
-  selector: 'ptr-button',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './ptr-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ptr-button',
+    imports: [CommonModule, RouterLink],
+    templateUrl: './ptr-button.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrButtonComponent {
 

@@ -6,12 +6,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
-  selector: 'ptr-tabs',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './ptr-tabs.component.html',
-  styleUrl: './ptr-tabs.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ptr-tabs',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './ptr-tabs.component.html',
+    styleUrl: './ptr-tabs.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrTabsComponent implements AfterViewInit {
 

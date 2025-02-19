@@ -4,12 +4,11 @@ import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/ro
 import { filter, distinctUntilChanged } from 'rxjs';
 import { BreadcrumbRouteInfo, PtrBreadcrumb } from './interfaces';
 @Component({
-  selector: 'ptr-breadcrumbs',
-  standalone: true,
-  imports: [RouterModule],
-  templateUrl: './ptr-breadcrumbs.component.html',
-  styleUrl: './ptr-breadcrumbs.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ptr-breadcrumbs',
+    imports: [RouterModule],
+    templateUrl: './ptr-breadcrumbs.component.html',
+    styleUrl: './ptr-breadcrumbs.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrBreadcrumbsComponent {
 
