@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, Even
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PtrConditionalRule, PtrFormConfig, PtrFormField } from '../interfaces';
 import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
-import { PtrSelectComponent } from "../input/select/select.component";
+import { PtrSelectComponent } from "../input/ptr-select/select.component";
 import { PtrInputComponent } from '../input/ptr-input/ptr-input.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
