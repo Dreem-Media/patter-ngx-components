@@ -32,7 +32,7 @@ export class PtrTabsComponent implements AfterViewInit {
         this.router.navigate([activeTab.link]);
       }
       this.updateSliderPosition();
-    }, { allowSignalWrites: true });
+    });
   }
 
   ngAfterViewInit() {
