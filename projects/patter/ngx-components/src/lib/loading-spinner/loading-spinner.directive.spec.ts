@@ -4,7 +4,6 @@ import { PtrLoadingSpinnerDirective } from './loading-spinner.directive';
 
 @Component({
   template: '<div ptrLoadingSpinner="true"></div>',
-  standalone: true,
   imports: [PtrLoadingSpinnerDirective]
 })
 class TestComponent {}

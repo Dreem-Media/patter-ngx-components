@@ -27,7 +27,7 @@ export interface PtrOptionGroup {
 export type OptionInputs = (string | PtrOption)[] | PtrOptionGroup[];
 
 export interface PtrFormField {
-  type: 'text' | 'textarea' | 'number' | 'email' | 'password' | 'search' | 'select' | 'date' | 'hidden';
+  type: 'text' | 'textarea' | 'number' | 'email' | 'password' | 'search' | 'select' | 'date' | 'hidden' | 'chips';
   name: string;
   label: string;
   description?: string;
@@ -45,6 +45,9 @@ export interface PtrFormField {
 
   // Async search
   searchFn?: (term: string) => Observable<string[]>;
+
+  // Chips specific
+  maxItems?: number;
 
   // Conditional fields
   conditional?: PtrConditionalConfig;

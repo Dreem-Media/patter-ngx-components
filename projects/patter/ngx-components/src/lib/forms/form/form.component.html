@@ -27,6 +27,11 @@
               <ptr-select [label]="getFieldLabel(field)" [formControlName]="field.name" [options]="field.options"
                 [placeholder]="getFieldPlaceholder(field)" [labelPosition]="config.labelPosition" />
             }
+            @case ('chips') {
+              <ptr-chip-input [label]="getFieldLabel(field)" [formControlName]="field.name"
+                [placeholder]="getFieldPlaceholder(field)" [description]="field.description"
+                [maxItems]="field.maxItems" [labelPosition]="config.labelPosition" />
+            }
             @default {
             <ptr-input [label]="getFieldLabel(field)" [formControlName]="field.name" [type]="field.type"
               [placeholder]="getFieldPlaceholder(field)" [autocomplete]="field.autocomplete" [searchFn]="field.searchFn"

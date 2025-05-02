@@ -2,8 +2,7 @@ import { ComponentRef, Directive, ElementRef, HostBinding, inject, Input, OnDest
 import { PtrLoadingSpinnerComponent } from './loading-spinner.component';
 
 @Directive({
-  selector: '[ptrLoadingSpinner]',
-  standalone: true
+  selector: '[ptrLoadingSpinner]'
 })
 export class PtrLoadingSpinnerDirective implements OnDestroy {
 

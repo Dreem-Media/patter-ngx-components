@@ -5,10 +5,10 @@ import { RouterLink } from '@angular/router';
 type ButtonStyle = 'normal' | 'error' | 'secondary' | 'icon';
 
 @Component({
-    selector: 'ptr-button',
-    imports: [CommonModule, RouterLink],
-    templateUrl: './ptr-button.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ptr-button',
+  imports: [CommonModule, RouterLink],
+  templateUrl: './ptr-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PtrButtonComponent {
 
@@ -33,7 +33,7 @@ export class PtrButtonComponent {
   type = signal<'button' | 'submit' | 'reset'>('button');
   disabled = signal(false);
   href = signal<string | null>(null);
-  routerLink = signal<string | (string|number)[] | null>(null);
+  routerLink = signal<string | (string | number)[] | null>(null);
   additionalClasses = signal('');
   smallSize = signal(false);
 
@@ -53,7 +53,7 @@ export class PtrButtonComponent {
     this.href.set(value);
   }
 
-  @Input() set routerLinkValue(value: string | (string|number)[] | null) {
+  @Input() set routerLinkValue(value: string | (string | number)[] | null) {
     this.routerLink.set(value);
   }
 

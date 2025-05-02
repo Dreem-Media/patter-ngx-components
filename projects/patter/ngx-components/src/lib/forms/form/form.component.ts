@@ -5,6 +5,7 @@ import { PtrConditionalRule, PtrFormConfig, PtrFormField } from '../interfaces';
 import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
 import { PtrSelectComponent } from "../input/ptr-select/select.component";
 import { PtrInputComponent } from '../input/ptr-input/ptr-input.component';
+import { PtrChipInputComponent } from '../input/ptr-chip-input/ptr-chip-input.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -14,7 +15,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         ReactiveFormsModule,
         PtrButtonComponent,
         PtrSelectComponent,
-        PtrInputComponent
+        PtrInputComponent,
+        PtrChipInputComponent
     ],
     templateUrl: './form.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -44,7 +46,12 @@ export class PtrFormComponent implements OnInit {
   buildForm(): void {
     const group: Record<string, unknown> = {};
     this.config.fields.forEach(field => {
-      group[field.name] = [field.value || '', field.validators || []];
+      // Initialize array fields with empty arrays
+      if (field.type === 'chips') {
+        group[field.name] = [field.value || [], field.validators || []];
+      } else {
+        group[field.name] = [field.value || '', field.validators || []];
+      }
     });
 
     this.formGroup = this.fb.group(group, this.config.formValidators ? { validators: this.config.formValidators } : null);
@@ -60,7 +67,11 @@ export class PtrFormComponent implements OnInit {
     this.formGroup.reset();
     this.config.fields.forEach(field => {
       const control = this.formGroup.get(field.name);
-      control?.setValue(field.value || '', { emitEvent: false });
+      if (field.type === 'chips') {
+        control?.setValue(field.value || [], { emitEvent: false });
+      } else {
+        control?.setValue(field.value || '', { emitEvent: false });
+      }
     });
     this.cdr.markForCheck();
   }
@@ -75,20 +86,26 @@ export class PtrFormComponent implements OnInit {
   }
 
   isFieldVisible(field: PtrFormField): boolean {
-    if (!field.conditional?.showWhen) return true;
+    if (!field.conditional?.showWhen) {
+      return true;
+    }
     return this.evaluateConditionalRules(field.conditional.showWhen) as boolean;
   }
 
   getFieldLabel(field: PtrFormField): string {
-    if (!field.conditional?.label) return field.label;
-    const conditionalLabel = this.evaluateConditionalRules(field.conditional.label);
-    return conditionalLabel as string || field.label;
+    if (!field.conditional?.label) {
+      return field.label;
+    }
+    const result = this.evaluateConditionalRules(field.conditional.label);
+    return typeof result === 'string' ? result : field.label;
   }
 
-  getFieldPlaceholder(field: PtrFormField): string | null {
-    if (!field.conditional?.placeholder) return field.placeholder || null;
-    const conditionalPlaceholder = this.evaluateConditionalRules(field.conditional.placeholder);
-    return conditionalPlaceholder as string || field.placeholder || null;
+  getFieldPlaceholder(field: PtrFormField): string {
+    if (!field.conditional?.placeholder) {
+      return field.placeholder || '';
+    }
+    const result = this.evaluateConditionalRules(field.conditional.placeholder);
+    return typeof result === 'string' ? result : field.placeholder || '';
   }
 
   private evaluateConditionalRules(rules: PtrConditionalRule[]): string | boolean {
@@ -100,5 +117,4 @@ export class PtrFormComponent implements OnInit {
     }
     return false;
   }
-
 }

@@ -8,6 +8,7 @@ export * from './lib/forms/interfaces';
 export { PtrFormComponent } from './lib/forms/form/form.component';
 export { PtrSelectComponent } from './lib/forms/input/ptr-select/select.component';
 export { PtrInputComponent } from './lib/forms/input/ptr-input/ptr-input.component';
+export { PtrChipInputComponent } from './lib/forms/input/ptr-chip-input/ptr-chip-input.component';
 
 export { PtrTitleComponent } from './lib/ptr-title/ptr-title.component';
 

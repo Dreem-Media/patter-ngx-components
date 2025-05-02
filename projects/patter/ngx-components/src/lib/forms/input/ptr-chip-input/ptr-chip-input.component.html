@@ -1,0 +1,36 @@
+<label class="gfield_label gform-field-label" [attr.for]="inputId"
+  [class.gfield--input-wrapper--label-inline]="labelPosition === 'inline'">{{ label }}</label>
+@if(description){
+<div class="gfield_description">{{description}}</div>
+}
+<div class="gfield--input-wrapper ginput_container"
+  [class.gfield--input-wrapper--label-inline]="labelPosition === 'inline'">
+
+  <div class="ptr-chip-container">
+    <div class="ptr-chip-list">
+      @for (chip of chipItems(); track chip; let i = $index) {
+      <div class="ptr-chip">
+        <span class="ptr-chip-text">{{ chip }}</span>
+        <button type="button" class="ptr-chip-remove" (click)="removeChip(i)" [disabled]="isDisabled()"
+          aria-label="Remove item">×</button>
+      </div>
+      }
+    </div>
+
+    <div class="ptr-chip-input-wrapper">
+      <input #chipInput [id]="inputId" type="text" [placeholder]="placeholder || ''" [formControl]="tempInputControl"
+        (keydown)="onKeyDown($event)" (blur)="onBlur()"
+        [disabled]="isDisabled() || (maxItems !== undefined && chipItems().length >= maxItems)" />
+      <ptr-button (clicked)="addChip()"
+        [isDisabled]="!inputValue().trim() || isDisabled() || (maxItems !== undefined && chipItems().length >= maxItems)">Add</ptr-button>
+    </div>
+  </div>
+
+  @if (labelPosition === 'inline') {
+  <fieldset aria-hidden="true" class="input-fieldset">
+    <legend class="input-legend gfield_label gform-field-label gform-field-label--hidden">
+      <span>{{label}}</span>
+    </legend>
+  </fieldset>
+  }
+</div>

@@ -1,0 +1,68 @@
+.ptr-chip-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.ptr-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ptr-chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--wp--preset--color--primary);
+  color: var(--wp--custom--color--primary-text, currentColor);
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: var(--wp--preset--font-size--small, 14px);
+  line-height: 20px;
+  margin-right: 4px;
+  cursor: default;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--wp--custom--color--primary-hover);
+  }
+}
+
+.ptr-chip-text {
+  margin-right: 6px;
+}
+
+.ptr-chip-remove {
+  border: none;
+  background: none;
+  color: var(--wp--custom--color--primary-text, currentColor);
+  font-size: var(--wp--preset--font-size--medium, 16px);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.ptr-chip-input-wrapper {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
