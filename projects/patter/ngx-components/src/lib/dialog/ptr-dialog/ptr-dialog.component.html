@@ -6,11 +6,18 @@
       <button class="ptr-modal__close" (click)="close()" aria-label="Close dialog">&times;</button>
     </div>
 
-    <p>{{ message }}</p>
+    @if (hasDefaultContent && !contentTemplate) {
+      <p>{{ message }}</p>
+    }
+
+    @if (contentTemplate) {
+      <ng-container *ngTemplateOutlet="contentTemplate; context: {$implicit: data, dialogInstance: this}"></ng-container>
+    }
+
     <div class="ptr-modal__actions">
       <ptr-button buttonStyle="secondary" (clicked)="close()" [isSmallSize]="true">Cancel</ptr-button>
       <ptr-button class="ml-auto" [buttonStyle]="buttonStyle" (clicked)="confirm()"
-        [isSmallSize]="true">{{buttonText}}</ptr-button>
+      [isSmallSize]="true">{{buttonText}}</ptr-button>
     </div>
 
   </div>
