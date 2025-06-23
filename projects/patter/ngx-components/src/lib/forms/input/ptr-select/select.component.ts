@@ -47,7 +47,7 @@ export class PtrSelectComponent {
   });
 
   effectivePlaceholder = computed(() => {
-    return this.placeholder ?? 'Select an option';
+    return this.placeholder?.trim() || 'Select an option';
   });
 
   private componentId = Math.random().toString(36).substring(2);
