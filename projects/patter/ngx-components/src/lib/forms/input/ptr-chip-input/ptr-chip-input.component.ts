@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, OnInit, signal, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { PtrButtonComponent } from '../../../ptr-button/ptr-button.component';
 
 @Component({
   selector: 'ptr-chip-input',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     PtrButtonComponent
-  ],
+],
   templateUrl: './ptr-chip-input.component.html',
   styleUrls: ['./ptr-chip-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
