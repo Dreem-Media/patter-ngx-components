@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, HostListener, Input, OnInit, signal, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { PtrButtonComponent } from '../../../ptr-button/ptr-button.component';
+import { PtrDialogListComponent } from '../../shared/ptr-dialog-list/ptr-dialog-list.component';
+import { PtrOption, PtrOptionGroup } from '../../interfaces';
 
 @Component({
   selector: 'ptr-chip-input',
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    PtrButtonComponent
+    PtrButtonComponent,
+    PtrDialogListComponent
 ],
   templateUrl: './ptr-chip-input.component.html',
   styleUrls: ['./ptr-chip-input.component.scss'],
@@ -27,8 +30,11 @@ export class PtrChipInputComponent implements ControlValueAccessor, OnInit {
   @Input() description? = '';
   @Input() labelPosition?: 'top' | 'inline' = 'top';
   @Input() maxItems?: number;
+  @Input() suggestions: (PtrOption | PtrOptionGroup | string)[] | undefined;
+  @Input() showSearch = true;
 
   @ViewChild('chipInput') chipInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('dialogList') dialogList?: PtrDialogListComponent;
 
   private componentId = Math.random().toString(36).substring(2);
   inputId = `${this.componentId}-input`;
@@ -73,6 +79,11 @@ export class PtrChipInputComponent implements ControlValueAccessor, OnInit {
     if (event.key === 'Enter' || event.key === ',') {
       event.preventDefault();
       this.addChip();
+    } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.openDialog();
+    } else if (event.key === 'Escape') {
+      this.closeDialog();
     } else if (event.key === 'Backspace' && !this.inputValue() && this.chipItems().length > 0) {
       // Remove the last chip when backspace is pressed and input is empty
       this.removeChip(this.chipItems().length - 1);
@@ -81,10 +92,58 @@ export class PtrChipInputComponent implements ControlValueAccessor, OnInit {
 
   onBlur(): void {
     // Add the chip when the input loses focus if there's a value
-    if (this.inputValue().trim()) {
+    // but only if the suggestions dialog isn't open
+    if (!this.dialogList?.isOpen?.() && this.inputValue().trim()) {
       this.addChip();
     }
     this.onTouched();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as Node;
+    const dialogEl = this.dialogList?.dialog?.nativeElement as HTMLElement | undefined;
+    const inputEl = this.chipInput?.nativeElement as HTMLElement | undefined;
+    if (
+      this.dialogList?.isOpen?.() &&
+      dialogEl && !dialogEl.contains(target) &&
+      inputEl && !inputEl.contains(target)
+    ) {
+      this.closeDialog();
+    }
+  }
+
+  openDialog(): void {
+  if (this.isDisabled() || (this.maxItems !== undefined && this.chipItems().length >= this.maxItems)) return;
+  if (!this.suggestions || this.suggestions.length === 0) return;
+    this.dialogList?.openDialog?.();
+  }
+
+  closeDialog(): void {
+    this.dialogList?.closeDialog?.();
+  }
+
+  onSuggestionSelected(optionValue: string | null) {
+    if (!optionValue) {
+      this.closeDialog();
+      return;
+    }
+    this.closeDialog();
+    this.addChipFromValue(optionValue);
+  }
+
+  private addChipFromValue(value: string) {
+    const trimmed = value.trim();
+    if (!trimmed) return;
+    if (this.maxItems !== undefined && this.chipItems().length >= this.maxItems) return;
+    if (!this.chipItems().includes(trimmed)) {
+      const newChips = [...this.chipItems(), trimmed];
+      this.chipItems.set(newChips);
+      this.onChange(newChips);
+    }
+    // Clear input and refocus for quick entry
+    this.tempInputControl.setValue('');
+    this.chipInput?.nativeElement.focus();
   }
 
   writeValue(value: string[]): void {

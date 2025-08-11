@@ -19,12 +19,16 @@
 
     <div class="ptr-chip-input-wrapper">
       <input #chipInput [id]="inputId" type="text" [placeholder]="placeholder || ''" [formControl]="tempInputControl"
-        (keydown)="onKeyDown($event)" (blur)="onBlur()"
+        (keydown)="onKeyDown($event)" (blur)="onBlur()" (focus)="openDialog()"
+        (input)="dialogList?.updateSearchTerm(inputValue())"
         [disabled]="isDisabled() || (maxItems !== undefined && chipItems().length >= maxItems)" />
       <ptr-button (clicked)="addChip()"
         [isDisabled]="!inputValue().trim() || isDisabled() || (maxItems !== undefined && chipItems().length >= maxItems)">Add</ptr-button>
     </div>
   </div>
+
+  <ptr-dialog-list #dialogList [options]="suggestions" [showSearch]="showSearch" [dialogTitle]="label"
+    (selectionChange)="onSuggestionSelected($event)" />
 
   @if (labelPosition === 'inline') {
   <fieldset aria-hidden="true" class="input-fieldset">
