@@ -1,0 +1,77 @@
+@use '@patter/patter-core-styles/scss/breakpoints' as *;
+@use '@patter/patter-core-styles/scss/independent-styles-setup';
+@use '@patter/patter-core-styles/scss/main';
+@use '@patter/patter-core-styles/scss/wordpress-public';
+
+:root {
+  --wp--style--global--content-size: 1150px;
+
+  --wp--preset--font-family--body-font: "Montserrat", sans-serif;
+
+  --wp--preset--color--primary: #272e3e;
+  --wp--preset--color--secondary: #FFBC00; // #f9f2e4;
+  --wp--preset--color--light: #f4f4f4;
+  --wp--preset--color--dark: #1F1F1F;
+
+  --wp--custom--color--primary-text: var(--wp--preset--color--white);
+  --wp--custom--color--primary-hover-text: var(--wp--preset--color--white);
+  --wp--custom--color--primary-hover: #475370;
+
+  --wp--custom--color--border: #e1e5ea;
+  --wp--custom--default-border-radius: 6px;
+  --wp--custom--content--button-input-padding-y: 12px;
+  --wp--custom--content--button-input-padding-x: 16px;
+
+  --wp--custom--typography--font-size--heading-2: 1.25rem;
+  --wp--custom--typography--font-size--heading-3: 1.125rem;
+}
+
+// App styles
+:root {
+  --el-padding-x: 24px;
+  --el-padding-y: 10px;
+}
+
+:root {
+  --patter--content-section--small: var(--space--3);
+  --patter--content-section--large: var(--space--5);
+}
+
+body {
+  font-family: var(--wp--preset--font-family--body-font);
+  line-height: 1.2;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 500;
+  color: var(--wp--preset--color--dark);
+
+  @include media(">=desktop") {
+    --wp--style--root--padding-right: 2rem;
+    --wp--style--root--padding-left: 2rem;
+  }
+}
+
+a {
+  color: var(--wp--preset--color--primary);
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+h2 {
+  font-size: var(--wp--custom--typography--font-size--heading-2);
+}
+
+h3 {
+  font-size: var(--wp--custom--typography--font-size--heading-3);
+}
+
+
+.highlight-code {
+  border: 1px solid var(--wp--custom--color--border);
+  padding: 4px 8px;
+}
