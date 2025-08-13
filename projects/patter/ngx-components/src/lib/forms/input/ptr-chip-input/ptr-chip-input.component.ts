@@ -31,7 +31,6 @@ export class PtrChipInputComponent implements ControlValueAccessor, OnInit {
   @Input() labelPosition?: 'top' | 'inline' = 'top';
   @Input() maxItems?: number;
   @Input() suggestions: (PtrOption | PtrOptionGroup | string)[] | undefined;
-  @Input() showSearch = true;
 
   @ViewChild('chipInput') chipInput!: ElementRef<HTMLInputElement>;
   @ViewChild('dialogList') dialogList?: PtrDialogListComponent;

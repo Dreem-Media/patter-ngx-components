@@ -8,7 +8,7 @@ import { PtrChipInputComponent, PtrOption, PtrOptionGroup } from '@patter/ngx-co
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, PtrChipInputComponent],
   template: `
-    <section style="padding: 1rem; display: grid; gap: 1rem; max-width: 800px; margin: 0 auto;">
+    <form style="padding: 1rem; display: grid; gap: 1rem; max-width: 800px; margin: 0 auto;">
       <h2>PtrChipInputComponent</h2>
 
       <ptr-chip-input
@@ -17,7 +17,6 @@ import { PtrChipInputComponent, PtrOption, PtrOptionGroup } from '@patter/ngx-co
         [placeholder]="'Add tag…'"
         [labelPosition]="'top'"
         [suggestions]="suggestions"
-        [showSearch]="true"
         [maxItems]="8"
         [formControl]="chipsControl"
       />
@@ -26,7 +25,7 @@ import { PtrChipInputComponent, PtrOption, PtrOptionGroup } from '@patter/ngx-co
         <h3>Value</h3>
         <pre>{{ chipsControl.value | json }}</pre>
       </div>
-    </section>
+  </form>
   `,
 })
 export default class ChipInputDemoComponent {

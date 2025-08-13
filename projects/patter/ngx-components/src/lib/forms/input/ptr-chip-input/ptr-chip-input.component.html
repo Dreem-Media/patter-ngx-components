@@ -22,12 +22,12 @@
         (keydown)="onKeyDown($event)" (blur)="onBlur()" (focus)="openDialog()"
         (input)="dialogList?.updateSearchTerm(inputValue())"
         [disabled]="isDisabled() || (maxItems !== undefined && chipItems().length >= maxItems)" />
-      <ptr-button (clicked)="addChip()"
+      <ptr-button (clicked)="addChip()" [isSmallSize]="true"
         [isDisabled]="!inputValue().trim() || isDisabled() || (maxItems !== undefined && chipItems().length >= maxItems)">Add</ptr-button>
     </div>
   </div>
 
-  <ptr-dialog-list #dialogList [options]="suggestions" [showSearch]="showSearch" [dialogTitle]="label"
+  <ptr-dialog-list #dialogList [options]="suggestions" [showSearch]="false" [dialogTitle]="label"
     (selectionChange)="onSuggestionSelected($event)" />
 
   @if (labelPosition === 'inline') {

@@ -9,7 +9,7 @@ import { Observable, of, delay, map } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, PtrInputComponent],
   template: `
-    <section style="padding: 1rem; display: grid; gap: 1rem; max-width: 800px; margin: 0 auto;">
+    <form style="padding: 1rem; display: grid; gap: 1rem; max-width: 800px; margin: 0 auto;">
       <h2>PtrInputComponent</h2>
 
       <ptr-input
@@ -18,6 +18,7 @@ import { Observable, of, delay, map } from 'rxjs';
         [labelPosition]="'top'"
         [ngModel]="textValue"
         (ngModelChange)="textValue = $event"
+        name="text"
       />
 
       <div>
@@ -30,6 +31,7 @@ import { Observable, of, delay, map } from 'rxjs';
         [placeholder]="'Say more…'"
         [ngModel]="textAreaValue"
         (ngModelChange)="textAreaValue = $event"
+        name="textarea"
       />
 
       <ptr-input
@@ -40,12 +42,13 @@ import { Observable, of, delay, map } from 'rxjs';
         [searchFn]="search"
         [ngModel]="searchValue"
         (ngModelChange)="searchValue = $event"
+        name="search"
       />
 
       <div>
         <strong>Search value:</strong> {{ searchValue }}
       </div>
-    </section>
+    </form>
   `,
 })
 export default class InputDemoComponent {

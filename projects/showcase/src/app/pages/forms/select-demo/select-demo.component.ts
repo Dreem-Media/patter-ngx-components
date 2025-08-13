@@ -8,7 +8,7 @@ import { PtrSelectComponent, PtrOption, PtrOptionGroup } from '@patter/ngx-compo
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, PtrSelectComponent],
   template: `
-    <section style="padding: 1rem; display: grid; gap: 1rem; max-width: 800px; margin: 0 auto;">
+    <form style="padding: 1rem; display: grid; gap: 1rem; max-width: 800px; margin: 0 auto;">
       <h2>PtrSelectComponent</h2>
 
       <ptr-select
@@ -19,12 +19,13 @@ import { PtrSelectComponent, PtrOption, PtrOptionGroup } from '@patter/ngx-compo
         [options]="options"
         [(ngModel)]="value"
         (selectionChange)="value = $event"
+        name="select"
       />
 
       <div>
         <strong>Selected:</strong> {{ value }}
       </div>
-    </section>
+    </form>
   `,
 })
 export default class SelectDemoComponent {
