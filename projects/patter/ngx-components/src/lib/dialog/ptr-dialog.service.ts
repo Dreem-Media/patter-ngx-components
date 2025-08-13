@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentRef, createComponent, EnvironmentInjector, Injectable, TemplateRef, Type } from '@angular/core';
+import { ApplicationRef, ComponentRef, createComponent, EnvironmentInjector, Injectable, TemplateRef, Type, inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DialogResult, PtrDialogComponent } from './ptr-dialog/ptr-dialog.component';
@@ -16,13 +16,10 @@ export interface PtrDialogOptions<T = unknown> {
   providedIn: 'root'
 })
 export class PtrDialogService {
+  private appRef = inject(ApplicationRef);
+  private injector = inject(EnvironmentInjector);
 
   private dialogComponentRef: ComponentRef<PtrDialogComponent<unknown>> | null = null;
-
-  constructor(
-    private appRef: ApplicationRef,
-    private injector: EnvironmentInjector
-  ) { }
 
   open<T = unknown>(options: PtrDialogOptions<T>): Observable<DialogResult<T>> {
     const dialogResult$ = new Subject<DialogResult<T>>();
