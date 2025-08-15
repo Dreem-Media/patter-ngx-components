@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, HostListener, Input, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, HostListener, Input, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { PtrButtonComponent } from '../../../ptr-button/ptr-button.component';
 import { PtrDialogListComponent } from '../../shared/ptr-dialog-list/ptr-dialog-list.component';
@@ -16,6 +16,7 @@ import { PtrOption, PtrOptionGroup } from '../../interfaces';
   templateUrl: './ptr-chip-input.component.html',
   styleUrls: ['./ptr-chip-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -31,6 +32,11 @@ export class PtrChipInputComponent implements ControlValueAccessor, OnInit {
   @Input() labelPosition?: 'top' | 'inline' = 'top';
   @Input() maxItems?: number;
   @Input() suggestions: (PtrOption | PtrOptionGroup | string)[] | undefined;
+  /**
+   * Auto reopen the suggestions dialog after adding/selecting a chip (default true)
+   * as long as maxItems has not been reached.
+   */
+  @Input() autoReopenAfterSelect = true;
 
   @ViewChild('chipInput') chipInput!: ElementRef<HTMLInputElement>;
   @ViewChild('dialogList') dialogList?: PtrDialogListComponent;
@@ -64,6 +70,7 @@ export class PtrChipInputComponent implements ControlValueAccessor, OnInit {
       }
       this.tempInputControl.setValue('');
       this.chipInput.nativeElement.focus();
+  this.maybeReopenDialog();
     }
   }
 
@@ -75,6 +82,10 @@ export class PtrChipInputComponent implements ControlValueAccessor, OnInit {
   }
 
   onKeyDown(event: KeyboardEvent): void {
+    // Re-open dialog when typing if closed
+    if (!this.dialogList?.isOpen?.() && this.hasSuggestions() && event.key.length === 1 && !event.metaKey && !event.ctrlKey && !event.altKey) {
+      this.openDialog();
+    }
     if (event.key === 'Enter' || event.key === ',') {
       event.preventDefault();
       this.addChip();
@@ -129,6 +140,7 @@ export class PtrChipInputComponent implements ControlValueAccessor, OnInit {
     }
     this.closeDialog();
     this.addChipFromValue(optionValue);
+  this.maybeReopenDialog();
   }
 
   private addChipFromValue(value: string) {
@@ -143,6 +155,21 @@ export class PtrChipInputComponent implements ControlValueAccessor, OnInit {
     // Clear input and refocus for quick entry
     this.tempInputControl.setValue('');
     this.chipInput?.nativeElement.focus();
+  }
+
+  private maybeReopenDialog() {
+    if (
+      this.autoReopenAfterSelect &&
+      !this.isDisabled() &&
+      (!this.maxItems || this.chipItems().length < this.maxItems) &&
+      this.hasSuggestions()
+    ) {
+      queueMicrotask(() => this.openDialog());
+    }
+  }
+
+  private hasSuggestions(): boolean {
+    return !!(this.suggestions && this.suggestions.length > 0);
   }
 
   writeValue(value: string[]): void {

@@ -64,5 +64,9 @@
   display: flex;
   gap: 8px;
   width: 100%;
+
+  button {
+    text-wrap-mode: nowrap;
+  }
 }
 
