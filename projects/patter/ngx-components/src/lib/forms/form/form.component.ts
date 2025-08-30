@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PtrConditionalRule, PtrFormConfig, PtrFormField } from '../interfaces';
 import { PtrButtonComponent } from '../../ptr-button/ptr-button.component';
 import { PtrSelectComponent } from "../input/ptr-select/select.component";
+import { PtrMultiSelectComponent } from "../input/ptr-multi-select/ptr-multi-select.component";
 import { PtrInputComponent } from '../input/ptr-input/ptr-input.component';
 import { PtrChipInputComponent } from '../input/ptr-chip-input/ptr-chip-input.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -15,6 +16,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         ReactiveFormsModule,
         PtrButtonComponent,
         PtrSelectComponent,
+        PtrMultiSelectComponent,
         PtrInputComponent,
         PtrChipInputComponent
     ],
@@ -47,7 +49,7 @@ export class PtrFormComponent implements OnInit {
     const group: Record<string, unknown> = {};
     this.config.fields.forEach(field => {
       // Initialize array fields with empty arrays
-      if (field.type === 'chips') {
+      if (field.type === 'chips' || field.type === 'multi-select') {
         group[field.name] = [field.value || [], field.validators || []];
       } else {
         group[field.name] = [field.value || '', field.validators || []];
@@ -67,7 +69,7 @@ export class PtrFormComponent implements OnInit {
     this.formGroup.reset();
     this.config.fields.forEach(field => {
       const control = this.formGroup.get(field.name);
-      if (field.type === 'chips') {
+      if (field.type === 'chips' || field.type === 'multi-select') {
         control?.setValue(field.value || [], { emitEvent: false });
       } else {
         control?.setValue(field.value || '', { emitEvent: false });

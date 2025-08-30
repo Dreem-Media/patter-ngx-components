@@ -27,7 +27,7 @@ export interface PtrOptionGroup {
 export type OptionInputs = (string | PtrOption)[] | PtrOptionGroup[];
 
 export interface PtrFormField {
-  type: 'text' | 'textarea' | 'number' | 'email' | 'password' | 'search' | 'select' | 'date' | 'hidden' | 'chips';
+  type: 'text' | 'textarea' | 'number' | 'email' | 'password' | 'search' | 'select' | 'multi-select' | 'date' | 'hidden' | 'chips';
   name: string;
   label: string;
   description?: string;
@@ -42,6 +42,9 @@ export interface PtrFormField {
   // Select specific
   options?: OptionInputs;
   dialogHelpText?: string;
+
+  // Multi-select specific
+  maxSelections?: number;
 
   // Async search
   searchFn?: (term: string) => Observable<string[]>;
