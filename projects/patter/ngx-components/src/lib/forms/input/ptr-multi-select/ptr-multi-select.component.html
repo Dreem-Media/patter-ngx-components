@@ -6,11 +6,23 @@
 <div class="gfield--input-wrapper ginput_container"
   [class.gfield--input-wrapper--label-inline]="labelPosition === 'inline'">
 
-  <button #selectButton type="button" class="select-button" [attr.id]="inputId" [attr.aria-haspopup]="'listbox'"
+  <button #selectButton type="button" class="multi-select-button" [attr.id]="inputId" [attr.aria-haspopup]="'listbox'"
     [attr.aria-expanded]="dialogList.isOpen()" [attr.aria-labelledby]="labelId" (click)="toggleDialog()">
     <span [attr.id]="labelId" class="select-display">
-      @if (displayValue(); as dValue) { {{dValue}} } @else {
+      @if (selectedOptions().length === 0) {
         <span class="placeholder">{{effectivePlaceholder()}}</span>
+      } @else {
+        <div class="selected-items">
+          @for (option of selectedOptions(); track option.value) {
+            <span class="selected-chip">
+              {{option.label}}
+              <button type="button" class="remove-chip" (click)="removeSelectedItem(option.value); $event.stopPropagation()"
+                [attr.aria-label]="'Remove ' + option.label">
+                ×
+              </button>
+            </span>
+          }
+        </div>
       }
     </span>
     <span class="select-arrow">⏷</span>
@@ -24,7 +36,7 @@
   </fieldset>
   }
 
-  <ptr-dialog-list #dialogList [options]="options" (selectionChange)="onOptionSelected($event)"
-    [showSearch]="showSearch" />
+  <ptr-multi-dialog-list #dialogList [options]="options" [selectedValues]="value()" [maxSelections]="maxSelections"
+    [showSelectAll]="showSelectAll" (selectionChange)="onSelectionChanged($event)" [showSearch]="showSearch" />
 
 </div>

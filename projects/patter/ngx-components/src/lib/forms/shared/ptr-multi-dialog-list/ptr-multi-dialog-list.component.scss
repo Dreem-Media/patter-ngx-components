@@ -1,0 +1,88 @@
+.ptr-multi-dialog-list {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--wp--custom--color--border);
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 5;
+  border-radius: calc(var(--wp--custom--default-border-radius) / 2);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  scrollbar-width: thin;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+input.search-input {
+  padding: calc(var(--wp--custom--content--button-input-padding-y, 12px) / 1.5) var(--wp--custom--content--button-input-padding-x, 16px) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--wp--custom--color--border) !important;
+  outline: 0;
+  font-size: var(--wp--preset--font-size--small, inherit);
+  border-radius: 0 !important;
+}
+
+.dialog-title {
+  padding: 5px 10px;
+  border: none !important;
+  border-bottom: 1px solid var(--wp--custom--color--border) !important;
+  font-size: var(--wp--preset--font-size--small, inherit);
+  font-weight: 500;
+  margin: 0;
+}
+
+.option-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li[role="option"],
+li[role="group"] {
+  padding: 5px 10px;
+}
+
+li[role="group"] {
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+li[role="option"] {
+  cursor: pointer;
+  font-size: var(--wp--preset--font-size--small, inherit);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  input[type="checkbox"] {
+    margin: 0;
+    pointer-events: none;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+li[role="option"]:hover,
+li[role="option"].selected,
+li[role="option"].highlighted {
+  background-color: #f0f0f0;
+}
+
+li[role="option"]:focus-within {
+  outline: 2px solid var(--wp--custom--color--border);
+}
+
+.select-all-option {
+  font-weight: 500;
+  border-bottom: 1px solid var(--wp--custom--color--border);
+
+  &.indeterminate {
+    font-style: italic;
+  }
+}

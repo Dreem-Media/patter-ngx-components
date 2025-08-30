@@ -1,0 +1,88 @@
+// Shared chip styles and mixins for ptr components
+//
+// Usage:
+// @use '../../../shared/styles/chips' as chips;
+//
+// .my-chip { @include chips.ptr-chip-standard; }      // Standard size for chip-input
+// .my-chip { @include chips.ptr-chip-small; }         // Small size for multi-select
+// .remove-btn { @include chips.ptr-chip-remove-standard; }  // Standard remove button
+// .remove-btn { @include chips.ptr-chip-remove-small; }     // Small remove button
+
+// Base chip styles
+@mixin ptr-chip-base {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--wp--preset--color--primary);
+  color: var(--wp--custom--color--primary-text, white);
+  border-radius: 16px;
+  font-size: var(--wp--preset--font-size--small, 14px);
+  cursor: default;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--wp--custom--color--primary-hover);
+  }
+}
+
+// Standard size chip (used in chip-input)
+@mixin ptr-chip-standard {
+  @include ptr-chip-base;
+  padding: 4px 12px;
+  line-height: 20px;
+  margin-right: 4px;
+}
+
+// Small size chip (used in multi-select)
+@mixin ptr-chip-small {
+  @include ptr-chip-base;
+  padding: 2px 6px;
+  border-radius: calc(var(--wp--custom--default-border-radius) / 3);
+  font-size: 0.8em;
+  gap: 4px;
+}
+
+// Chip remove button base
+@mixin ptr-chip-remove-base {
+  border: none;
+  background: none;
+  color: var(--wp--custom--color--primary-text, white);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Standard remove button (for chip-input)
+@mixin ptr-chip-remove-standard {
+  @include ptr-chip-remove-base;
+  font-size: var(--wp--preset--font-size--medium, 16px);
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+}
+
+// Small remove button (for multi-select)
+@mixin ptr-chip-remove-small {
+  @include ptr-chip-remove-base;
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}

@@ -11,6 +11,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
         <a routerLink="/forms/chip-input">Chip Input</a>
         <a routerLink="/forms/input">Input</a>
         <a routerLink="/forms/select">Select</a>
+        <a routerLink="/forms/multi-select">Multi-Select</a>
       </nav>
     </header>
 

@@ -1,0 +1,54 @@
+<dialog #dialog class="ptr-multi-dialog-list" (keydown)="onDialogKeyDown($event)" [attr.aria-label]="'Options'">
+
+  @if(dialogTitle) {
+  <p class="dialog-title">{{dialogTitle}}</p>
+  }
+
+  @if (showSearch) {
+  <div>
+    <input #searchInput [ngModel]="searchTerm()" (ngModelChange)="updateSearchTerm($event)"
+      [attr.aria-expanded]="isOpen()" [attr.aria-owns]="listId" (keydown)="onInputKeyDown($event)"
+      [attr.aria-autocomplete]="'list'" role="combobox" [attr.aria-controls]="listId" [placeholder]="searchPlaceholder"
+      class="search-input">
+  </div>
+  }
+<form>
+  <ul [attr.id]="listId" role="listbox" class="option-list" [attr.aria-multiselectable]="true">
+    @if (shouldShowSelectAll()) {
+    <li role="option" class="select-all-option" [attr.aria-selected]="allSelectedState() === true"
+      [class.selected]="allSelectedState() === true" [class.indeterminate]="allSelectedState() === 'indeterminate'"
+      (click)="toggleSelectAll()" (keydown)="onSelectAllKeyDown($event)" [attr.tabindex]="0">
+      <input type="checkbox" [checked]="allSelectedState() === true"
+             [indeterminate]="allSelectedState() === 'indeterminate'" readonly>
+      Select All
+    </li>
+    }
+    @for (item of filteredOptions(); track item.label) {
+    @if (item.type === 'option') {
+    <li role="option" [attr.id]="item.value" [attr.aria-selected]="isOptionSelected(item.value!)"
+      [class.selected]="isOptionSelected(item.value!)" [class.highlighted]="item === filteredOptions()[highlightedIndex()]"
+      [class.disabled]="!canSelectMore() && !isOptionSelected(item.value!)"
+      (click)="toggleOption(item.value!)" (keydown)="onOptionKeyDown($event, item.value!)"
+      [attr.tabindex]="item === filteredOptions()[highlightedIndex()] ? 0 : -1">
+      <input type="checkbox" [checked]="isOptionSelected(item.value!)" [disabled]="!canSelectMore() && !isOptionSelected(item.value!)" readonly>
+      {{ item.label }}
+    </li>
+    } @else {
+    <li role="group" [attr.aria-label]="item.label">
+      {{ item.label }}
+    </li>
+    @for (option of item.options!; track option.value) {
+    <li role="option" [attr.id]="option.value" [attr.aria-selected]="isOptionSelected(option.value!)"
+      [class.selected]="isOptionSelected(option.value!)" [class.highlighted]="option === filteredOptions()[highlightedIndex()]"
+      [class.disabled]="!canSelectMore() && !isOptionSelected(option.value!)"
+      (click)="toggleOption(option.value!)" (keydown)="onOptionKeyDown($event, option.value!)"
+      [attr.tabindex]="option === filteredOptions()[highlightedIndex()] ? 0 : -1">
+      <input type="checkbox" [checked]="isOptionSelected(option.value!)" [disabled]="!canSelectMore() && !isOptionSelected(option.value!)" readonly>
+      {{ option.label }}
+    </li>
+    }
+    }
+    }
+  </ul>
+</form>
+</dialog>

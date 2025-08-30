@@ -21,4 +21,9 @@ export const routes: Routes = [
 		loadComponent: () => import('./pages/forms/select-demo/select-demo.component').then(m => m.default),
 		title: 'Select Demo',
 	},
+	{
+		path: 'forms/multi-select',
+		loadComponent: () => import('./pages/forms/multi-select-demo/multi-select-demo.component').then(m => m.default),
+		title: 'Multi-Select Demo',
+	}
 ];

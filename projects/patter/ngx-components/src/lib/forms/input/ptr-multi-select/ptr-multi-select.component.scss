@@ -1,4 +1,6 @@
-.select-button {
+@use '../../../shared/styles/chips' as chips;
+
+.multi-select-button {
   appearance: none;
   background-color: #fff;
   text-align: left;
@@ -17,6 +19,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 42px;
 
   &[aria-expanded="true"] {
     border-bottom-left-radius: 0;
@@ -30,6 +33,21 @@
 
   .placeholder {
     color: #999;
+  }
+
+  .selected-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .selected-chip {
+    @include chips.ptr-chip-small;
+
+    .remove-chip {
+      @include chips.ptr-chip-remove-small;
+    }
   }
 
   .select-arrow {
@@ -46,7 +64,7 @@
 
 // Inline styles
 .gfield--input-wrapper--label-inline {
-  .select-button {
+  .multi-select-button {
     border-color: transparent;
     outline: 0;
   }
