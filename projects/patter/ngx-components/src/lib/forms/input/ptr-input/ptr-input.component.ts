@@ -1,30 +1,31 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, HostListener, Input, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, forwardRef, HostListener, inject, Input, OnInit, signal, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { PtrDialogListComponent } from '../../shared/ptr-dialog-list/ptr-dialog-list.component';
 import { debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
-    selector: 'ptr-input',
-    imports: [
+  selector: 'ptr-input',
+  imports: [
     FormsModule,
     ReactiveFormsModule,
     PtrDialogListComponent
-],
-    templateUrl: './ptr-input.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => PtrInputComponent),
-            multi: true
-        }
-    ]
+  ],
+  templateUrl: './ptr-input.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PtrInputComponent),
+      multi: true
+    }
+  ]
 })
 export class PtrInputComponent implements ControlValueAccessor, OnInit {
 
-  @Input() type: 'text' | 'number' | 'email' | 'password' | 'search' | 'hidden' | 'date' | 'textarea' = 'text';
+  @Input() type: 'text' | 'number' | 'email' | 'password' | 'search' | 'hidden' | 'date' | 'time' | 'textarea' = 'text';
   @Input() label = '';
   @Input() placeholder?: string | null = '';
   @Input() autocomplete? = '';
@@ -35,6 +36,8 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   @ViewChild('dialogList') dialogList!: PtrDialogListComponent;
+
+  private destroyRef = inject(DestroyRef);
 
   private componentId = Math.random().toString(36).substring(2);
   private minChars = 3;
@@ -65,7 +68,8 @@ export class PtrInputComponent implements ControlValueAccessor, OnInit {
       this.searchTerms.pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap(term => term.length >= this.minChars ? this.searchFn!(term) : of([]))
+        switchMap(term => term.length >= this.minChars ? this.searchFn!(term) : of([])),
+        takeUntilDestroyed(this.destroyRef)
       ).subscribe(results => {
         this.searchResultOptions.set(results);
         if (results.length > 0 && this.dialogList) {

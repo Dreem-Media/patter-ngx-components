@@ -1,39 +1,11 @@
-# AI assistant guide for this repo
-
-This repo is an Angular 20 standalone component library published as `@patter/ngx-components`. It is built with ng-packagr and depends on the external style package `@patter/patter-core-styles` for visuals.
+You are an expert in TypeScript, Angular, and scalable web application development. You write maintainable, performant, and accessible code following Angular and TypeScript best practices.
 
 ## Architecture and patterns
 - Library-only workspace. Source lives under `projects/patter/ngx-components/src/lib/**`; the entrypoint is `src/public-api.ts` which re-exports all public symbols.
 - Standalone components and OnPush by default. The Angular schematics enforce `style: scss` and `changeDetection: OnPush` (see `angular.json`). No NgModules.
 - Signals-first state. Components and services use Angular Signals (`signal`, `computed`) instead of RxJS for internal state. Example: `PtrButtonComponent` computes classes and link/disabled state via signals; `PtrLoadingService` exposes `isLoading()` and `isAnyLoading()` as Signals.
 - Service-driven overlays. UI services create components dynamically and attach to `document.body` using `createComponent` and `ApplicationRef.attachView()` (see `PtrToasterService`). Dialogs follow a similar pattern under `src/lib/dialog/*`.
-- CSS conventions. Selectors are prefixed `ptr-` and HostBinding commonly sets classes. Many classes align with WordPress block styles (e.g. `wp-block-button__link`, `is-style-outline`, etc.). Visuals assume `@patter/patter-core-styles` is installed in consumer apps.
-
-## Key files
-- `projects/patter/ngx-components/src/public-api.ts` — single entrypoint; export new symbols here.
-- `projects/patter/ngx-components/src/lib/ptr-button/ptr-button.component.ts` — example standalone component using Signals + HostBinding.
-- `projects/patter/ngx-components/src/lib/services/loading.service.ts` — global/named loading via Signals.
-- `projects/patter/ngx-components/src/lib/ptr-toaster/ptr-toaster.service.ts` — dynamic overlay creation pattern.
-- `projects/patter/ngx-components/ng-package.json` — ng-packagr config (dest and entry).
-- `angular.json` — library target is `@patter/ngx-components` with build/test/lint configs.
-
-## Build, test, lint, publish
-- Build library:
-  - Dev watch: `npm run watch` (maps to `ng build --watch --configuration development`).
-  - Prod: `ng build @patter/ngx-components --configuration production`.
-- Tests: `npm test` or `ng test @patter/ngx-components` (Karma, ChromeHeadless).
-- Lint: `npm run lint` (Angular ESLint with project config at `projects/.../eslint.config.js`).
-- Local consume: after a build, `npm link` from `dist/patter/ngx-components` (script: `npm run npm-link`). Alternatively `npm pack` and install the tarball in a sample app.
-- Publish: build prod, then from `dist/patter/ngx-components` run `npm publish --access public` (see root `README.md`).
-
-## Adding or modifying components/services
-- Place components under `src/lib/<area>/<name>/<name>.component.{ts,html,scss}` with selector `ptr-...`. Use `ChangeDetectionStrategy.OnPush`, `standalone: true` with explicit `imports`.
-- Prefer Angular Signals for component state: `signal(...)`, `computed(...)`. Emit outputs with `EventEmitter` only for external events (e.g., `clicked`).
-- Use HostBinding for host classes. Example from `PtrButtonComponent`:
-  - a HostBinding getter builds classes from signals (style, size, disabled).
-  - link detection uses computed signals: `computed(() => !!href() || !!routerLink())`.
-- Overlays/services: follow `PtrToasterService` pattern — lazy import component, `createComponent`, append to `document.body`, and `ApplicationRef.attachView()`; expose a signal store for component rendering.
-- Public API: export any new public symbols from `src/public-api.ts`. If it’s not exported here, it won’t be in the package.
+- CSS conventions. Selectors are prefixed `ptr-`. Many classes align with WordPress block styles (e.g. `wp-block-button__link`, `is-style-outline`, etc.). Visuals assume `@patter/patter-core-styles` is installed in consumer apps.
 
 ## Conventions to follow
 - Naming: prefix selectors with `ptr-`; keep file/folder names kebab-case matching selector; service names prefixed `Ptr` in PascalCase (e.g., `PtrLoadingService`).
@@ -43,8 +15,52 @@ This repo is an Angular 20 standalone component library published as `@patter/ng
 - Keep dependencies minimal; library peers are Angular `^20`. Avoid hard dependencies on app-only modules.
  - Accessibility: write HTML to be as accessible as possible. Prefer semantic elements; label form controls; use available inputs like `ariaLabel` on `PtrButtonComponent`. For overlays (dialogs, toasts, tooltips) that attach to `document.body`, ensure appropriate roles/ARIA and keyboard focus management following existing dialog/tooltip patterns.
 
-## Integration expectations for consumers
-- Consumer apps must install `@patter/patter-core-styles` and include its styles for correct visuals.
-- All components are standalone; import them directly in routes/components. Services are `providedIn: 'root'` unless intentionally component-scoped.
-
 Questions or gaps? If you need clarity on a workflow or a pattern isn’t obvious, list the file you’re looking at and what’s unclear, and we’ll iterate on this guide.
+
+## TypeScript Best Practices
+
+- Use strict type checking
+- Prefer type inference when the type is obvious
+- Avoid the `any` type; use `unknown` when type is uncertain
+
+## Angular Best Practices
+
+- Always use standalone components over NgModules
+- Must NOT set `standalone: true` inside Angular decorators. It's the default.
+- Use signals for state management
+- Implement lazy loading for feature routes
+- Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
+- Use `NgOptimizedImage` for all static images.
+  - `NgOptimizedImage` does not work for inline base64 images.
+
+## Components
+
+- Keep components small and focused on a single responsibility
+- Use `input()` and `output()` functions instead of decorators
+- Use `computed()` for derived state
+- Set `changeDetection: ChangeDetectionStrategy.OnPush` in `@Component` decorator
+- Prefer inline templates for small components
+- Do NOT generate a component stylesheet file; all components must use `inlineStyle` with styles consolidated in the global `src/styles.scss`
+- Any component-specific styling should use BEM-ish naming or host/contextual classes defined in the global stylesheet
+- Prefer Reactive forms instead of Template-driven ones
+- Do NOT use `ngClass`, use `class` bindings instead
+- Do NOT use `ngStyle`, use `style` bindings instead
+
+## State Management
+
+- Use signals for local component state
+- Use `computed()` for derived state
+- Keep state transformations pure and predictable
+- Do NOT use `mutate` on signals, use `update` or `set` instead
+
+## Templates
+
+- Keep templates simple and avoid complex logic
+- Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
+- Use the async pipe to handle observables
+
+## Services
+
+- Design services around a single responsibility
+- Use the `providedIn: 'root'` option for singleton services
+- Use the `inject()` function instead of constructor injection

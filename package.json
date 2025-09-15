@@ -4,7 +4,6 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build @patter/ngx-components",
     "watch": "ng build @patter/ngx-components --watch --configuration development",
     "npm-link": "cd dist/patter/ngx-components && npm link",
     "test": "ng test",
