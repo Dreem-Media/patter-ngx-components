@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PtrInputComponent } from '@patter/ngx-components';
 import { Observable, of, delay, map } from 'rxjs';
@@ -7,7 +7,7 @@ import { Observable, of, delay, map } from 'rxjs';
 @Component({
   selector: 'app-input-demo',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, PtrInputComponent],
+  imports: [FormsModule, ReactiveFormsModule, PtrInputComponent],
   template: `
     <form style="padding: 1rem; display: grid; gap: 1rem; max-width: 800px; margin: 0 auto;">
       <h2>PtrInputComponent</h2>
