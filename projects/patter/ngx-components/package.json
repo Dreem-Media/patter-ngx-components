@@ -8,5 +8,12 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
+  "ng-update": {
+    "migrations": "./schematics/migrations.json",
+    "packageGroup": {
+      "@angular/core": "^22.0.0",
+      "@angular/common": "^22.0.0"
+    }
+  },
   "sideEffects": false
 }
