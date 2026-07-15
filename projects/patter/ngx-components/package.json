@@ -1,6 +1,6 @@
 {
   "name": "@patter/ngx-components",
-  "version": "22.1.8",
+  "version": "22.1.9",
   "peerDependencies": {
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0"
