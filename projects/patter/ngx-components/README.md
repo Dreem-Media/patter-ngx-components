@@ -1,24 +1,42 @@
-# NgxComponents
+# @patter/ngx-components
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
+Angular component library for Patter applications. Consumer applications must also install `@patter/patter-core-styles`.
 
-## Code scaffolding
+The package requires `@angular/common`, `@angular/core`, `@angular/forms`, and `@angular/router` v22, plus RxJS 6.5.3 or 7.4 and later.
 
-Run `ng generate component component-name --project ngx-components` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-components`.
-> Note: Don't forget to add `--project ngx-components` or else it will be added to the default project in your `angular.json` file. 
+## Development
 
-## Build
+Build the library:
 
-Run `ng build ngx-components` to build the project. The build artifacts will be stored in the `dist/` directory.
+```sh
+ng build @patter/ngx-components
+```
+
+Run its unit tests with Vitest:
+
+```sh
+ng test @patter/ngx-components
+```
+
+Run the tests once, without watch mode:
+
+```sh
+ng test @patter/ngx-components --watch=false
+```
+
+Generate library components and directives with the library project name:
+
+```sh
+ng generate component my-component --project @patter/ngx-components
+ng generate directive my-directive --project @patter/ngx-components
+```
 
 ## Publishing
 
-After building your library with `ng build ngx-components`, go to the dist folder `cd dist/ngx-components` and run `npm publish`.
+Build the production package and publish it from the generated package directory:
 
-## Running unit tests
-
-Run `ng test ngx-components` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```sh
+ng build @patter/ngx-components --configuration production
+cd dist/patter/ngx-components
+npm publish --access public
+```

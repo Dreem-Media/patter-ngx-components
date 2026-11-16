@@ -1,4 +1,5 @@
-import { ApplicationRef, ComponentRef, createComponent, DestroyRef, EnvironmentInjector, inject, Injectable, Injector, signal } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { ApplicationRef, ComponentRef, createComponent, DestroyRef, EnvironmentInjector, inject, Injectable, Injector, PLATFORM_ID, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { timer } from 'rxjs';
 import { PtrToast } from './interfaces';
@@ -12,28 +13,43 @@ export class PtrToasterService {
   private injector = inject(Injector);
   private environmentInjector = inject(EnvironmentInjector);
   private appRef = inject(ApplicationRef);
+  private document = inject(DOCUMENT);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private toasts = signal<PtrToast[]>([]);
   private counter = 0;
   private toasterComponentRef: ComponentRef<unknown> | null = null;
+  private destroyed = false;
 
   constructor() {
+    this.destroyRef.onDestroy(() => {
+      this.destroyed = true;
+      if (this.toasterComponentRef) {
+        this.appRef.detachView(this.toasterComponentRef.hostView);
+        this.toasterComponentRef.destroy();
+        this.toasterComponentRef = null;
+      }
+    });
     this.injectToasterComponent();
   }
 
   private injectToasterComponent() {
-    if (this.toasterComponentRef) {
+    if (!this.isBrowser || this.toasterComponentRef || this.destroyed) {
       return;
     }
 
     import('./ptr-toaster/ptr-toaster.component').then(module => {
+      if (this.destroyed) {
+        return;
+      }
+
       this.toasterComponentRef = createComponent(module.PtrToasterComponent, {
         environmentInjector: this.environmentInjector,
         elementInjector: this.injector
       });
 
       const domElem = this.toasterComponentRef.location.nativeElement;
-      document.body.appendChild(domElem);
+      this.document.body.appendChild(domElem);
       this.appRef.attachView(this.toasterComponentRef.hostView);
     });
   }

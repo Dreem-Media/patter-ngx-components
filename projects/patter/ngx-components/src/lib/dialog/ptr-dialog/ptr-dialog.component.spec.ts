@@ -7,6 +7,10 @@ describe('PtrDialogComponent', () => {
   let fixture: ComponentFixture<PtrDialogComponent>;
 
   beforeEach(async () => {
+    HTMLDialogElement.prototype.showModal = function () {
+      this.setAttribute('open', '');
+    };
+
     await TestBed.configureTestingModule({
       imports: [PtrDialogComponent]
     })

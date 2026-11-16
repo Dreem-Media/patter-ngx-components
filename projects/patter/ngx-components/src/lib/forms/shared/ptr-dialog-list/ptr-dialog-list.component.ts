@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, ElementRef, EventEmitter, Input, Output, signal, ViewChild } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, EventEmitter, inject, Input, Output, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PtrOption, PtrOptionGroup } from '../../interfaces';
 
@@ -33,6 +34,8 @@ export class PtrDialogListComponent {
 
   @ViewChild('dialog') dialog!: ElementRef<HTMLDialogElement>;
 
+  private document = inject(DOCUMENT);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private _options = signal<ProcessedOption[]>([]);
   value = signal<string | null>(null);
   searchTerm = signal('');
@@ -184,8 +187,15 @@ export class PtrDialogListComponent {
   }
 
   adjustDialogPosition() {
+    if (!this.isBrowser) {
+      return;
+    }
+
     const dialogRect = this.dialog.nativeElement.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
+    const viewportHeight = this.document.defaultView?.innerHeight;
+    if (viewportHeight === undefined) {
+      return;
+    }
     const spaceBelow = viewportHeight - dialogRect.bottom;
     if (spaceBelow > 0) {
       this.dialog.nativeElement.style.top = '100%';

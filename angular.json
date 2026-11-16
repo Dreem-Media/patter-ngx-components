@@ -31,14 +31,9 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/patter/ngx-components/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "browsers": "ChromeHeadless"
+            "tsConfig": "projects/patter/ngx-components/tsconfig.spec.json"
           }
         },
         "lint": {

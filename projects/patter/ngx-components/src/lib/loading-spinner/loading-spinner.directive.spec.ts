@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PtrLoadingSpinnerDirective } from './loading-spinner.directive';
 
 @Component({
-  template: '<div ptrLoadingSpinner="true"></div>',
+  template: '<div [ptrLoadingSpinner]="true"></div>',
   imports: [PtrLoadingSpinnerDirective]
 })
 class TestComponent {}

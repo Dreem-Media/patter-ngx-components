@@ -3,7 +3,10 @@
   "version": "22.1.9",
   "peerDependencies": {
     "@angular/common": "^22.0.0",
-    "@angular/core": "^22.0.0"
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@angular/router": "^22.0.0",
+    "rxjs": "^6.5.3 || ^7.4.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
@@ -12,7 +15,9 @@
     "migrations": "./schematics/migrations.json",
     "packageGroup": {
       "@angular/core": "^22.0.0",
-      "@angular/common": "^22.0.0"
+      "@angular/common": "^22.0.0",
+      "@angular/forms": "^22.0.0",
+      "@angular/router": "^22.0.0"
     }
   },
   "sideEffects": false

@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { ComponentRef, Directive, ElementRef, HostBinding, inject, Input, OnDestroy, Renderer2, ViewContainerRef } from '@angular/core';
 import { PtrLoadingSpinnerComponent } from './loading-spinner.component';
 
@@ -9,9 +10,11 @@ export class PtrLoadingSpinnerDirective implements OnDestroy {
   private targetEl = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
   private renderer = inject(Renderer2);
+  private document = inject(DOCUMENT);
 
   private spinnerInstance?: ComponentRef<PtrLoadingSpinnerComponent>;
   private overlay?: HTMLElement;
+  private blurStyle?: HTMLElement;
 
   @HostBinding('style.position') hostPosition = 'relative';
 
@@ -72,12 +75,17 @@ export class PtrLoadingSpinnerDirective implements OnDestroy {
       }
     `;
     this.renderer.appendChild(style, this.renderer.createText(blurRule));
-    this.renderer.appendChild(document.head, style);
+    this.blurStyle = style;
+    this.renderer.appendChild(this.document.head, style);
     this.renderer.addClass(this.targetEl.nativeElement, 'ptr-loading-blur');
   }
 
   private removeBlurEffect(): void {
     this.renderer.removeClass(this.targetEl.nativeElement, 'ptr-loading-blur');
+    if (this.blurStyle) {
+      this.renderer.removeChild(this.document.head, this.blurStyle);
+      this.blurStyle = undefined;
+    }
   }
 
 }

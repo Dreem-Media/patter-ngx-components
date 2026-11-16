@@ -1,3 +1,4 @@
+import { PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PtrMultiDialogListComponent } from './ptr-multi-dialog-list.component';
@@ -21,8 +22,22 @@ describe('PtrMultiDialogListComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('does not measure the viewport during server rendering', async () => {
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({
+      imports: [PtrMultiDialogListComponent],
+      providers: [{ provide: PLATFORM_ID, useValue: 'server' }]
+    }).compileComponents();
+
+    const serverFixture = TestBed.createComponent(PtrMultiDialogListComponent);
+    serverFixture.detectChanges();
+    serverFixture.componentInstance.adjustDialogPosition();
+
+    expect(serverFixture.componentInstance.dialog.nativeElement.style.top).toBe('');
+  });
+
   it('should toggle option selection', () => {
-    spyOn(component.selectionChange, 'emit');
+    vi.spyOn(component.selectionChange, 'emit');
 
     component.toggleOption('option1');
     expect(component.selectedItems()).toContain('option1');
@@ -44,7 +59,7 @@ describe('PtrMultiDialogListComponent', () => {
   });
 
   it('should handle select all functionality', () => {
-    spyOn(component.selectionChange, 'emit');
+    vi.spyOn(component.selectionChange, 'emit');
     component.options = ['option1', 'option2', 'option3'];
 
     // Initially nothing selected

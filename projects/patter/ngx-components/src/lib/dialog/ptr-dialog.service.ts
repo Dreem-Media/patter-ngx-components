@@ -1,4 +1,5 @@
-import { ApplicationRef, ComponentRef, createComponent, EnvironmentInjector, Injectable, TemplateRef, Type, inject } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { ApplicationRef, ComponentRef, createComponent, EnvironmentInjector, Injectable, TemplateRef, Type, inject, PLATFORM_ID } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DialogResult, PtrDialogComponent } from './ptr-dialog/ptr-dialog.component';
@@ -18,10 +19,16 @@ export interface PtrDialogOptions<T = unknown> {
 export class PtrDialogService {
   private appRef = inject(ApplicationRef);
   private injector = inject(EnvironmentInjector);
+  private document = inject(DOCUMENT);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private dialogComponentRef: ComponentRef<PtrDialogComponent<unknown>> | null = null;
 
   open<T = unknown>(options: PtrDialogOptions<T>): Observable<DialogResult<T>> {
+    if (!this.isBrowser) {
+      throw new Error('PtrDialogService.open() can only be used in a browser.');
+    }
+
     const dialogResult$ = new Subject<DialogResult<T>>();
 
     this.dialogComponentRef = createComponent(PtrDialogComponent as Type<PtrDialogComponent<unknown>>, {
@@ -56,7 +63,7 @@ export class PtrDialogService {
         dialogResult$.complete();
       });
 
-    document.body.appendChild(this.dialogComponentRef.location.nativeElement);
+    this.document.body.appendChild(this.dialogComponentRef.location.nativeElement);
     this.appRef.attachView(this.dialogComponentRef.hostView);
 
     return dialogResult$.asObservable();
