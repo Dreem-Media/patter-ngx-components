@@ -1,0 +1,8 @@
+ptr-input input[type='time'] {
+  text-align: start;
+
+  // Safari aligns its native time value independently of the input.
+  &::-webkit-date-and-time-value {
+    text-align: start;
+  }
+}

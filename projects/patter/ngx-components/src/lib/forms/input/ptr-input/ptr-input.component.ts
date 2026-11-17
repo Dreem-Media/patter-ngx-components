@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, forwardRef, HostListener, inject, Input, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, forwardRef, HostListener, inject, Input, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { PtrDialogListComponent } from '../../shared/ptr-dialog-list/ptr-dialog-list.component';
 import { debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap } from 'rxjs';
@@ -14,7 +14,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     PtrDialogListComponent
   ],
   templateUrl: './ptr-input.component.html',
+  styleUrls: ['./ptr-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
